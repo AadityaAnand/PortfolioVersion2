@@ -1,10 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>About Section</title>
-</head>
-<body>
-    <h1>About Section</h1>
-    <p>This is the About page of my portfolio website.</p>
-</body>
-</html> 
+{% extends 'core/base.html' %}
+
+{% block title %}About - Aaditya Anand{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="mb-4">About Me</h2>
+            <p class="lead mb-4">
+                Software Engineer with over 2 years of experience in full-stack development, 
+                cloud architecture, and ML/AI solutions. Proficient in Python, JavaScript, and SQL, 
+                building scalable applications that improve performance by 25-70%.
+            </p>
+            
+            <hr class="my-5">
+            
+            <h3 class="mb-4">Experience</h3>
+            
+            <div class="mb-4">
+                <h5 class="fw-bold">Software Development Engineer</h5>
+                <p class="text-muted mb-2">Wells Fargo | August 2024 – Present</p>
+                <ul class="text-muted">
+                    <li>Developed Python-based automation framework processing 70+ internal workflows, reducing processing time by 40%</li>
+                    <li>Implemented CI/CD pipelines using Jenkins for banking applications</li>
+                </ul>
+            </div>
+            
+            <div class="mb-4">
+                <h5 class="fw-bold">DevOps Engineer Intern</h5>
+                <p class="text-muted mb-2">Intellicus Technologies | February 2023 – August 2023</p>
+                <ul class="text-muted">
+                    <li>Designed cloud-based infrastructure using AWS, reducing latency by 30%</li>
+                    <li>Built CI/CD pipelines with Jenkins and Selenium, accelerating deployment by 65%</li>
+                </ul>
+            </div>
+            
+            <div class="mb-4">
+                <h5 class="fw-bold">Software Engineer</h5>
+                <p class="text-muted mb-2">L&T Technology Services | May 2022 – September 2022</p>
+                <ul class="text-muted">
+                    <li>Developed full-stack applications using React.js and Node.js</li>
+                    <li>Optimized PostgreSQL queries, reducing data retrieval time by 25%</li>
+                </ul>
+            </div>
+            
+            <hr class="my-5">
+            
+            <h3 class="mb-4">Technical Skills</h3>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h6 class="fw-bold">Languages</h6>
+                    <p class="text-muted">Python, JavaScript, TypeScript, Java, C++, SQL, Go</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h6 class="fw-bold">Frameworks</h6>
+                    <p class="text-muted">Django, FastAPI, React.js, Node.js, Flask, Spring Boot</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h6 class="fw-bold">Cloud & DevOps</h6>
+                    <p class="text-muted">AWS, GCP, Docker, Kubernetes, Jenkins, Terraform</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h6 class="fw-bold">Databases</h6>
+                    <p class="text-muted">PostgreSQL, MongoDB, MySQL, Redis, Snowflake</p>
+                </div>
+            </div>
+            
+            <hr class="my-5">
+            
+            <h3 class="mb-4">Education</h3>
+            
+            <div class="mb-3">
+                <h5 class="fw-bold">Master of Science in Computer Science</h5>
+                <p class="text-muted mb-1">University of Maryland, Baltimore County</p>
+                <p class="text-muted">GPA: 3.62/4.0 | May 2025</p>
+            </div>
+            
+            <div class="mb-3">
+                <h5 class="fw-bold">Bachelor of Technology in Computer Science</h5>
+                <p class="text-muted mb-1">Medi-Caps University, India</p>
+                <p class="text-muted">GPA: 3.6/4.0 | May 2023</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
