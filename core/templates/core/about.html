@@ -2,87 +2,421 @@
 
 {% block title %}About - Aaditya Anand{% endblock %}
 
+{% block extra_css %}
+<style>
+
+    .about-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 100px 0 80px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .about-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+    
+    .about-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Timeline Styles */
+    .timeline {
+        position: relative;
+        padding: 50px 0;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, #667eea, #764ba2);
+        border-radius: 2px;
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+    }
+    
+    .timeline-item:nth-child(odd) .timeline-content {
+        margin-left: auto;
+        text-align: left;
+    }
+    
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-right: auto;
+        text-align: right;
+    }
+    
+    .timeline-content {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        width: 45%;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .timeline-content:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+    }
+    
+    .timeline-icon {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 0 0 10px rgba(255,255,255,1);
+        z-index: 2;
+    }
+    
+    .timeline-date {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    /* Skills Section */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+    
+    .skill-card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .skill-card:hover {
+        transform: translateY(-10px);
+        border-color: #667eea;
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+    }
+    
+    .skill-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+    
+    .skill-card h4 {
+        margin-bottom: 15px;
+        color: #0f172a;
+    }
+    
+    .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .skill-tag {
+        background: #f1f5f9;
+        color: #475569;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    
+    /* Education Cards */
+    .education-card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        border-left: 4px solid #667eea;
+    }
+    
+    .education-card:hover {
+        transform: translateX(10px);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .timeline::before {
+            left: 30px;
+        }
+        
+        .timeline-content {
+            width: calc(100% - 80px);
+            margin-left: 80px !important;
+            text-align: left !important;
+        }
+        
+        .timeline-icon {
+            left: 30px;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <h2 class="mb-4">About Me</h2>
-            <p class="lead mb-4">
-                Software Engineer with over 2 years of experience in full-stack development, 
-                cloud architecture, and ML/AI solutions. Proficient in Python, JavaScript, and SQL, 
-                building scalable applications that improve performance by 25-70%.
-            </p>
-            
-            <hr class="my-5">
-            
-            <h3 class="mb-4">Experience</h3>
-            
-            <div class="mb-4">
-                <h5 class="fw-bold">Software Development Engineer</h5>
-                <p class="text-muted mb-2">Wells Fargo | August 2024 – Present</p>
-                <ul class="text-muted">
-                    <li>Developed Python-based automation framework processing 70+ internal workflows, reducing processing time by 40%</li>
-                    <li>Implemented CI/CD pipelines using Jenkins for banking applications</li>
-                </ul>
-            </div>
-            
-            <div class="mb-4">
-                <h5 class="fw-bold">DevOps Engineer Intern</h5>
-                <p class="text-muted mb-2">Intellicus Technologies | February 2023 – August 2023</p>
-                <ul class="text-muted">
-                    <li>Designed cloud-based infrastructure using AWS, reducing latency by 30%</li>
-                    <li>Built CI/CD pipelines with Jenkins and Selenium, accelerating deployment by 65%</li>
-                </ul>
-            </div>
-            
-            <div class="mb-4">
-                <h5 class="fw-bold">Software Engineer</h5>
-                <p class="text-muted mb-2">L&T Technology Services | May 2022 – September 2022</p>
-                <ul class="text-muted">
-                    <li>Developed full-stack applications using React.js and Node.js</li>
-                    <li>Optimized PostgreSQL queries, reducing data retrieval time by 25%</li>
-                </ul>
-            </div>
-            
-            <hr class="my-5">
-            
-            <h3 class="mb-4">Technical Skills</h3>
-            
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <h6 class="fw-bold">Languages</h6>
-                    <p class="text-muted">Python, JavaScript, TypeScript, Java, C++, SQL, Go</p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <h6 class="fw-bold">Frameworks</h6>
-                    <p class="text-muted">Django, FastAPI, React.js, Node.js, Flask, Spring Boot</p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <h6 class="fw-bold">Cloud & DevOps</h6>
-                    <p class="text-muted">AWS, GCP, Docker, Kubernetes, Jenkins, Terraform</p>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <h6 class="fw-bold">Databases</h6>
-                    <p class="text-muted">PostgreSQL, MongoDB, MySQL, Redis, Snowflake</p>
-                </div>
-            </div>
-            
-            <hr class="my-5">
-            
-            <h3 class="mb-4">Education</h3>
-            
-            <div class="mb-3">
-                <h5 class="fw-bold">Master of Science in Computer Science</h5>
-                <p class="text-muted mb-1">University of Maryland, Baltimore County</p>
-                <p class="text-muted">GPA: 3.62/4.0 | May 2025</p>
-            </div>
-            
-            <div class="mb-3">
-                <h5 class="fw-bold">Bachelor of Technology in Computer Science</h5>
-                <p class="text-muted mb-1">Medi-Caps University, India</p>
-                <p class="text-muted">GPA: 3.6/4.0 | May 2023</p>
+
+<section class="about-hero">
+    <div class="container about-hero-content">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <h1 class="display-3 fw-bold mb-4">About Me</h1>
+                <p class="lead mb-0">
+                    I'm a Software Engineer who loves building things that matter. 
+                    From automating workflows to architecting cloud solutions, 
+                    I turn complex challenges into elegant code.
+                </p>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold mb-3">My Journey</h2>
+            <p class="lead text-muted">A timeline of growth, learning, and impact</p>
+        </div>
+        
+        <div class="timeline">
+            
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="timeline-content">
+                    <span class="timeline-date">August 2024 - Present</span>
+                    <h4 class="fw-bold mt-2">Software Development Engineer</h4>
+                    <p class="text-muted mb-2">Wells Fargo | Baltimore, MD</p>
+                    <p class="mb-0">
+                        Building automation frameworks that process 70+ workflows, 
+                        slashing processing time by 40%. Leading CI/CD implementations 
+                        and empowering a team of 10+ developers through Git mastery.
+                    </p>
+                    <div class="mt-3">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Jenkins</span>
+                        <span class="skill-tag">Git</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <div class="timeline-content">
+                    <span class="timeline-date">February 2023 - August 2023</span>
+                    <h4 class="fw-bold mt-2">DevOps Engineer Intern</h4>
+                    <p class="text-muted mb-2">Intellicus Technologies | Indore, India</p>
+                    <p class="mb-0">
+                        Architected cloud infrastructure on AWS, boosting scalability by 70% 
+                        and cutting latency by 30%. Revolutionized deployment with CI/CD pipelines 
+                        that eliminated 50% of manual work.
+                    </p>
+                    <div class="mt-3">
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Kubernetes</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="timeline-content">
+                    <span class="timeline-date">September 2022 - December 2022</span>
+                    <h4 class="fw-bold mt-2">AI Research Intern</h4>
+                    <p class="text-muted mb-2">IIT Kharagpur | India</p>
+                    <p class="mb-0">
+                        Developed ML models achieving 92% accuracy for urban planning research. 
+                        Automated data collection with web scraping, eliminating 80% of manual effort.
+                    </p>
+                    <div class="mt-3">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">ML</span>
+                        <span class="skill-tag">Selenium</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="timeline-content">
+                    <span class="timeline-date">May 2022 - September 2022</span>
+                    <h4 class="fw-bold mt-2">Software Engineer</h4>
+                    <p class="text-muted mb-2">L&T Technology Services | Bengaluru, India</p>
+                    <p class="mb-0">
+                        Built full-stack applications serving 10,000+ users with React & Node.js. 
+                        Optimized database queries for 25% faster retrieval and achieved 99.9% uptime.
+                    </p>
+                    <div class="mt-3">
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold mb-3">Technical Arsenal</h2>
+            <p class="lead text-muted">Tools and technologies I work with</p>
+        </div>
+        
+        <div class="skills-grid">
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="0">
+                <div class="skill-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h4>Languages</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Go</span>
+                </div>
+            </div>
+            
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="skill-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h4>Frameworks</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">Django</span>
+                    <span class="skill-tag">FastAPI</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Flask</span>
+                    <span class="skill-tag">Spring Boot</span>
+                </div>
+            </div>
+            
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="skill-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h4>Cloud & DevOps</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">GCP</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Kubernetes</span>
+                    <span class="skill-tag">Jenkins</span>
+                    <span class="skill-tag">Terraform</span>
+                </div>
+            </div>
+            
+            <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="skill-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h4>Data & Analytics</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">Redis</span>
+                    <span class="skill-tag">Snowflake</span>
+                    <span class="skill-tag">Apache Spark</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold mb-3">Education</h2>
+            <p class="lead text-muted">Academic foundation</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="education-card" data-aos="fade-up">
+                    <div class="d-flex align-items-start">
+                        <div class="me-4">
+                            <div class="skill-icon mb-0">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h4 class="fw-bold mb-2">Master of Science in Computer Science</h4>
+                            <p class="text-muted mb-2">University of Maryland, Baltimore County</p>
+                            <p class="mb-0"><strong>GPA:</strong> 3.62/4.0 | <strong>Expected:</strong> May 2025</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="education-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="d-flex align-items-start">
+                        <div class="me-4">
+                            <div class="skill-icon mb-0">
+                                <i class="fas fa-university"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h4 class="fw-bold mb-2">Bachelor of Technology in Computer Science</h4>
+                            <p class="text-muted mb-2">Medi-Caps University, India</p>
+                            <p class="mb-0"><strong>GPA:</strong> 3.6/4.0 | <strong>Graduated:</strong> May 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
