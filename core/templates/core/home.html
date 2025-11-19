@@ -520,9 +520,9 @@
                 </p>
                 
                 <div class="hero-buttons">
-                    <a href="/path/to/resume.pdf" download class="btn-primary-custom">
-                        <i class="fas fa-download"></i> Download Resume
-                    </a>
+                    {% load static %}
+                    <a href="{% static 'core/documents/AnandAadiResume.pdf' %}" target="_blank" class="btn-primary-custom">
+                    <i class="fas fa-download"></i> Download Resume</a>
                     <a href="#contact" class="btn-outline-custom">
                         <i class="fas fa-envelope"></i> Get In Touch
                     </a>
@@ -532,10 +532,10 @@
                     <a href="https://github.com/AadityaAnand" target="_blank" class="social-icon" title="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="https://linkedin.com/in/aadityaanand2908" target="_blank" class="social-icon" title="LinkedIn">
+                    <a href="https://www.linkedin.com/in/aadityaanand29/" target="_blank" class="social-icon" title="LinkedIn">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="mailto:aadityaanand2908@gmail.com" class="social-icon" title="Email">
+                    <a href="mailto:aadityaanand0829@gmail.com" class="social-icon" title="Email">
                         <i class="fas fa-envelope"></i>
                     </a>
                 </div>
@@ -545,7 +545,8 @@
             <div class="col-lg-5 text-center">
                 <div class="profile-image-container">
                     <div class="profile-glow"></div>
-                    <img src="https://via.placeholder.com/400/667eea/ffffff?text=AA" alt="Aaditya Anand" class="profile-image">
+                    {% load static %}
+                    <img src="{% static 'core/images/AadityAnand.jpg' %}" alt="Aaditya Anand" class="profile-image">
                 </div>
             </div>
         </div>
@@ -720,31 +721,63 @@
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
             <h2 class="display-4 fw-bold mb-3">Featured Projects</h2>
-            <p class="lead text-muted">A showcase of my work - from cloud architecture to full-stack applications</p>
+            <p class="lead text-muted">Building scalable, real-time applications with modern technologies</p>
         </div>
         
         <div class="row g-4">
-            <!-- Project 1: Cybersecurity Analytics Platform -->
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
+            <!-- Project 1: Real-Time Collaborative Code Editor -->
+<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
+    <div class="project-card">
+        <div class="project-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <i class="fas fa-code"></i>
+        </div>
+        <div class="project-content">
+            <h3 class="project-title">Real-Time Collaborative Code Editor</h3>
+            <p class="project-description">
+                Full-stack collaborative code editor supporting real-time simultaneous 
+                multi-user editing with sub-200ms latency. Features JWT-based authentication, 
+                role-based permissions, and optimized rendering for 60fps performance with 
+                real-time cursor tracking and presence indicators.
+            </p>
+            <div class="project-tech">
+                <span class="tech-badge">React.js</span>
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">Socket.io</span>
+                <span class="tech-badge">MongoDB</span>
+                <span class="tech-badge">JWT</span>
+            </div>
+            <div class="project-links">
+                <a href="https://github.com/AadityaAnand/CodeEditor" class="project-link project-link-primary" target="_blank">
+                    <i class="fab fa-github"></i> View Code
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            <!-- Project 2: Cybersecurity Analytics Platform -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="project-card">
-                    <div class="project-image">
+                    <div class="project-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Cybersecurity Analytics Platform</h3>
                         <p class="project-description">
-                            Interactive data breach analytics platform with D3.js visualizations. 
-                            Custom Tableau dashboards enhance decision-making capabilities for 
-                            cybersecurity analysts with real-time insights.
+                            Interactive data breach analytics platform featuring D3.js visualizations 
+                            and custom Tableau dashboards. Provides real-time insights into security 
+                            threats and breach patterns, enhancing decision-making capabilities for 
+                            cybersecurity analysts.
                         </p>
                         <div class="project-tech">
                             <span class="tech-badge">JavaScript</span>
                             <span class="tech-badge">D3.js</span>
                             <span class="tech-badge">Tableau</span>
                             <span class="tech-badge">RESTful APIs</span>
+                            <span class="tech-badge">Data Visualization</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/AadityaAnand" class="project-link project-link-primary" target="_blank">
+                            <a href="https://theb0ss37.github.io/data-vis-website-team7/" class="project-link project-link-primary" target="_blank">
                                 <i class="fab fa-github"></i> View Code
                             </a>
                         </div>
@@ -752,83 +785,28 @@
                 </div>
             </div>
             
-            <!-- Project 2: Distributed File System -->
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <!-- Project 3: Distributed File System -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="project-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                         <i class="fas fa-server"></i>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Distributed File System</h3>
                         <p class="project-description">
-                            High-performance distributed file system with gRPC communication 
-                            protocols and custom replication strategies. Optimized with multithreading 
-                            for faster data retrieval and seamless failover capabilities.
+                            High-performance distributed file system implementing gRPC communication 
+                            protocols with custom replication strategies. Optimized using multithreading 
+                            for faster data retrieval and features Bully algorithm for seamless failover 
+                            during node failures.
                         </p>
                         <div class="project-tech">
+                            <span class="tech-badge">Python</span>
                             <span class="tech-badge">gRPC</span>
                             <span class="tech-badge">Multithreading</span>
                             <span class="tech-badge">System Design</span>
-                            <span class="tech-badge">Python</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/AadityaAnand" class="project-link project-link-primary" target="_blank">
-                                <i class="fab fa-github"></i> View Code
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Project 3: Automation Framework -->
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Financial Automation Framework</h3>
-                        <p class="project-description">
-                            Python-based automation framework for processing financial workflows 
-                            at enterprise scale. Integrated with CI/CD pipelines for seamless 
-                            deployment and improved operational efficiency.
-                        </p>
-                        <div class="project-tech">
-                        <span class="tech-badge">Python</span>
-                            <span class="tech-badge">Jenkins</span>
-                            <span class="tech-badge">Git</span>
-                            <span class="tech-badge">Automation</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-link project-link-secondary">
-                                <i class="fas fa-lock"></i> Private
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Project 4: This Portfolio -->
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Portfolio Website</h3>
-                        <p class="project-description">
-                            Modern portfolio website built with Django. Features responsive design, 
-                            smooth animations, and clean architecture. Demonstrates full-stack 
-                            development skills and modern UI/UX principles.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">Django</span>
-                            <span class="tech-badge">Bootstrap</span>
-                            <span class="tech-badge">AOS</span>
-                            <span class="tech-badge">HTML/CSS</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/AadityaAnand/PortfolioVersion2" class="project-link project-link-primary" target="_blank">
+                            <a href="https://github.com/AadityaAnand/OS-Project-DFS" class="project-link project-link-primary" target="_blank">
                                 <i class="fab fa-github"></i> View Code
                             </a>
                         </div>
@@ -850,10 +828,10 @@
                     Or just want to chat about tech? I'd love to hear from you!
                 </p>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="mailto:aadityaanand2908@gmail.com" class="btn btn-light btn-lg">
+                    <a href="mailto:aadityaanand0829@gmail.com" class="btn btn-light btn-lg">
                         <i class="fas fa-envelope me-2"></i> Email Me
                     </a>
-                    <a href="https://linkedin.com/in/aadityaanand2908" class="btn btn-outline-light btn-lg" target="_blank">
+                    <a href="https://www.linkedin.com/in/aadityaanand29/" class="btn btn-outline-light btn-lg" target="_blank">
                         <i class="fab fa-linkedin me-2"></i> LinkedIn
                     </a>
                     <a href="https://github.com/AadityaAnand" class="btn btn-outline-light btn-lg" target="_blank">
@@ -865,3 +843,4 @@
     </div>
 </section>
 {% endblock %}
+
