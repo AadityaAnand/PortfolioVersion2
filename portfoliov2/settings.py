@@ -44,6 +44,10 @@ ALLOWED_HOSTS = os.environ.get(
     "aadityaanand.pythonanywhere.com,localhost,127.0.0.1",
 ).split(",")
 
+# Ensure Django test client host is permitted for commands that render pages (e.g. export_static)
+if "testserver" not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append("testserver")
+
 # Database configuration: use DATABASE_URL when provided (Railway/Postgres).
 try:
     import dj_database_url
@@ -71,9 +75,17 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    # WhiteNoise should come directly after SecurityMiddleware to serve static files
-    # efficiently in production when using gunicorn.
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+]
+# Add WhiteNoise middleware only if the package is installed so local builds or
+# environments without the dependency don't error out.
+try:  # pragma: no cover - defensive import
+    import whitenoise  # noqa: F401
+    MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
+except Exception:
+    # If whitenoise isn't available we just skip adding its middleware.
+    pass
+
+MIDDLEWARE += [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

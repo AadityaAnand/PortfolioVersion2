@@ -60,9 +60,9 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING(f"Skipped {len(skipped)} patterns (dynamic or empty): {skipped}"))
 
     def _is_simple(self, route: str) -> bool:
-        # Reject routes containing '<' (path converters) or starting with admin or empty pattern for now.
-        if not route:
-            return False
+        # Treat empty route as root path '/' so the homepage can be exported.
+        if route == "":
+            return True
         if "<" in route:
             return False
         return True
