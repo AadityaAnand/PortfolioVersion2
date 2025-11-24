@@ -23,9 +23,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-qay+4_y#*vq$j%w*=w5@&ch$_#9kb)t+2*!4$224)=^!jdwcwv"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+import os
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: don't run with debug turned on in production!
+# Use the DJANGO_DEBUG env var on the host (set to 'False' in production).
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
+
+# Allowed hosts control which host/domain names this Django site can serve.
+# In production add your PythonAnywhere domain (and any custom domains).
+# You can set ALLOWED_HOSTS via the ALLOWED_HOSTS env var (comma-separated),
+# or it will default to the PythonAnywhere domain plus localhost.
+ALLOWED_HOSTS = os.environ.get(
+    "ALLOWED_HOSTS",
+    "aadityaanand.pythonanywhere.com,localhost,127.0.0.1",
+).split(",")
 
 
 # Application definition
