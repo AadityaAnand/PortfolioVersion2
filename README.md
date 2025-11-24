@@ -41,6 +41,37 @@ Set these in your Railway project (Dashboard > Variables):
 ### Static Files
 * `start.sh` runs `collectstatic`. WhiteNoise serves versioned, compressed assets.
 * To change a static file, edit under `core/static/...` then commit and redeploy.
+You can export the Django-rendered pages to a collection of static HTML files and host them on GitHub Pages, Netlify, Cloudflare Pages, or Vercel without running Django.
+
+1. Ensure dependencies installed and run migrations (optional if only reading templates):
+   ```bash
+   pip install -r requirements.txt
+   python manage.py migrate
+   python manage.py collectstatic --noinput
+   ```
+2. Run the export command:
+   ```bash
+   python manage.py export_static --output dist
+   ```
+   This will create `dist/index.html` and subfolders for simple routes with `index.html` inside.
+3. Copy static assets:
+   - Either deploy `staticfiles/` alongside `dist/` (recommended) OR reference a CDN.
+   - For GitHub Pages, you can move contents of `dist/` into a branch:
+     ```bash
+     git worktree add ../gh-pages gh-pages || git branch gh-pages
+     rsync -av --delete dist/ ../gh-pages/
+     rsync -av --delete staticfiles/ ../gh-pages/static/
+     (cd ../gh-pages && git add . && git commit -m "static build" && git push origin gh-pages)
+     ```
+   - Then enable Pages for branch `gh-pages`.
+4. For Netlify / Cloudflare Pages / Vercel:
+   - Set build command to run the export (or use a simple shell script):
+     `python manage.py export_static --output dist && cp -r staticfiles dist/static`
+   - Set publish directory to `dist`.
+
+Limitations: dynamic routes with parameters are skipped. Add them manually or convert them to static pages.
+
+To customize included URLs, edit `core/management/commands/export_static.py`.
 
 ### Database
 * Default: sqlite for simplicity.
