@@ -20,7 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-qay+4_y#*vq$j%w*=w5@&ch$_#9kb)t+2*!4$224)=^!jdwcwv"
+# Read SECRET_KEY from the environment in production; fall back to the local value for
+# development only.
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-qay+4_y#*vq$j%w*=w5@&ch$_#9kb)t+2*!4$224)=^!jdwcwv",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 import os
@@ -38,6 +43,18 @@ ALLOWED_HOSTS = os.environ.get(
     "aadityaanand.pythonanywhere.com,localhost,127.0.0.1",
 ).split(",")
 
+# Database configuration: use DATABASE_URL when provided (Railway/Postgres).
+try:
+    import dj_database_url
+
+    DATABASE_URL = os.environ.get("DATABASE_URL")
+    if DATABASE_URL:
+        DATABASES = {"default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
+except Exception:
+    # dj-database-url is optional; if it's not installed or DATABASE_URL not set, keep
+    # the default sqlite configuration above.
+    pass
+
 
 # Application definition
 
@@ -53,6 +70,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # WhiteNoise should come directly after SecurityMiddleware to serve static files
+    # efficiently in production when using gunicorn.
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
