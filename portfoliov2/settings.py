@@ -153,6 +153,20 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# WhiteNoise static file optimization: use compressed manifest storage so files are
+# cached aggressively and URLs include a hash for cache-busting.
+try:
+    # Django 5 supports STORAGES; override staticfiles backend when whitenoise is present.
+    from whitenoise.storage import CompressedManifestStaticFilesStorage  # noqa: F401
+    STORAGES = globals().get('STORAGES', {
+        'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+        'staticfiles': {'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage'},
+    })
+    STORAGES['staticfiles']['BACKEND'] = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+except Exception:
+    # If whitenoise not available during a build step, fall back silently.
+    pass
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
