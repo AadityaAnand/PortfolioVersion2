@@ -83,9 +83,20 @@ class Command(BaseCommand):
         target_dir.mkdir(parents=True, exist_ok=True)
         target_file = target_dir / "index.html"
         html = response.content.decode("utf-8")
-        # Optionally adjust relative links if a base_url other than / is provided.
+        
+        # Convert absolute paths to relative for GitHub Pages subpath compatibility
+        # Calculate depth: root=0, subpage=1, etc.
+        depth = len([p for p in route.split('/') if p])
+        relative_prefix = '../' * depth if depth > 0 else './'
+        
+        # Replace absolute static paths with relative paths
+        html = html.replace('href="/static/', f'href="{relative_prefix}static/')
+        html = html.replace('src="/static/', f'src="{relative_prefix}static/')
+        
+        # Optionally adjust other links if a base_url other than / is provided.
         if base_url != "/":
             html = html.replace('href="/', f'href="{base_url}')
             html = html.replace('src="/', f'src="{base_url}')
+        
         target_file.write_text(html, encoding="utf-8")
         exported.append(route)
