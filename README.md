@@ -1,11 +1,87 @@
 ## PortfolioVersion2
 
-Personal portfolio built with Django. This README covers local development and free deployment on Railway.
+Personal portfolio built with Django. Deploy as a dynamic app (Railway) or export to static HTML for free hosting (GitHub Pages, Netlify).
 
 ### Tech Stack
 * Python / Django
 * Gunicorn (production WSGI server)
 * WhiteNoise (static file serving)
+
+---
+
+## Quick Start: Static Hosting (Recommended for Free Hosting)
+
+Export your Django site to static HTML and deploy on GitHub Pages or Netlify—no server runtime needed.
+
+### Prerequisites
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic --noinput
+```
+
+### Export Static Site
+```bash
+python manage.py export_static --output dist
+cp -r staticfiles dist/static
+```
+
+This creates `dist/index.html` and copies all CSS/JS/images to `dist/static/`.
+
+### Deploy to GitHub Pages
+1. **Create gh-pages branch** (one-time):
+   ```bash
+   git checkout --orphan gh-pages
+   git rm -rf .
+   cp -r dist/* .
+   git add .
+   git commit -m "Initial static site"
+   git push origin gh-pages
+   git checkout main
+   ```
+
+2. **Enable GitHub Pages**:
+   - Go to repo Settings → Pages
+   - Source: Deploy from branch `gh-pages` / `root`
+   - Your site will be live at `https://yourusername.github.io/PortfolioVersion2/`
+
+3. **Update site** (after changes):
+   ```bash
+   git checkout main
+   # make your changes, then:
+   python manage.py export_static --output dist
+   cp -r staticfiles dist/static
+   git checkout gh-pages
+   cp -r dist/* .
+   git add .
+   git commit -m "Update static site"
+   git push origin gh-pages
+   git checkout main
+   ```
+
+### Deploy to Netlify
+**Option A: Drag & Drop** (easiest)
+1. Build locally:
+   ```bash
+   python manage.py export_static --output dist
+   cp -r staticfiles dist/static
+   ```
+2. Go to [Netlify Drop](https://app.netlify.com/drop)
+3. Drag the `dist/` folder → instant deployment
+
+**Option B: Continuous Deployment**
+1. Push code to GitHub (already done)
+2. [New site from Git](https://app.netlify.com/start) → select your repo
+3. Build settings:
+   - **Build command**: `pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py export_static --output dist && cp -r staticfiles dist/static`
+   - **Publish directory**: `dist`
+4. Deploy → your site is live at `https://random-name.netlify.app` (customize domain in settings)
+
+**Note**: Static export only includes simple routes (no dynamic URLs with parameters). Admin and auth routes are skipped.
+
+---
 
 ### Local Development
 ```bash
@@ -38,40 +114,9 @@ Set these in your Railway project (Dashboard > Variables):
    * `Starting gunicorn ...`
 7. Visit the generated domain (shown in Railway) or map a custom domain.
 
-### Static Files
+### Static Files (Dynamic Deployment)
 * `start.sh` runs `collectstatic`. WhiteNoise serves versioned, compressed assets.
 * To change a static file, edit under `core/static/...` then commit and redeploy.
-You can export the Django-rendered pages to a collection of static HTML files and host them on GitHub Pages, Netlify, Cloudflare Pages, or Vercel without running Django.
-
-1. Ensure dependencies installed and run migrations (optional if only reading templates):
-   ```bash
-   pip install -r requirements.txt
-   python manage.py migrate
-   python manage.py collectstatic --noinput
-   ```
-2. Run the export command:
-   ```bash
-   python manage.py export_static --output dist
-   ```
-   This will create `dist/index.html` and subfolders for simple routes with `index.html` inside.
-3. Copy static assets:
-   - Either deploy `staticfiles/` alongside `dist/` (recommended) OR reference a CDN.
-   - For GitHub Pages, you can move contents of `dist/` into a branch:
-     ```bash
-     git worktree add ../gh-pages gh-pages || git branch gh-pages
-     rsync -av --delete dist/ ../gh-pages/
-     rsync -av --delete staticfiles/ ../gh-pages/static/
-     (cd ../gh-pages && git add . && git commit -m "static build" && git push origin gh-pages)
-     ```
-   - Then enable Pages for branch `gh-pages`.
-4. For Netlify / Cloudflare Pages / Vercel:
-   - Set build command to run the export (or use a simple shell script):
-     `python manage.py export_static --output dist && cp -r staticfiles dist/static`
-   - Set publish directory to `dist`.
-
-Limitations: dynamic routes with parameters are skipped. Add them manually or convert them to static pages.
-
-To customize included URLs, edit `core/management/commands/export_static.py`.
 
 ### Database
 * Default: sqlite for simplicity.
