@@ -1,6 +1,4 @@
-import os
 from pathlib import Path
-from urllib.parse import urljoin
 
 from django.core.management.base import BaseCommand
 from django.test import Client
@@ -32,28 +30,7 @@ class Command(BaseCommand):
         exported = []
         skipped = []
 
-        for pattern in patterns:
-            # Only handle simple path (no kwargs, no converters) included via include or direct view.
-            try:
-                raw = getattr(pattern, "pattern", None)
-                pattern_str = getattr(raw, "_route", "") if raw else ""
-            except Exception:
-                pattern_str = ""
-
-            if hasattr(pattern, "url_patterns"):
-                # Included sub-urls; descend one level.
-                for sub in pattern.url_patterns:
-                    sub_raw = getattr(sub, "pattern", None)
-                    sub_route = getattr(sub_raw, "_route", "") if sub_raw else ""
-                    if self._is_simple(sub_route):
-                        self._export_route(client, sub_route, output_dir, base_url, exported, skipped)
-                    else:
-                        skipped.append(sub_route)
-            else:
-                if self._is_simple(pattern_str):
-                    self._export_route(client, pattern_str, output_dir, base_url, exported, skipped)
-                else:
-                    skipped.append(pattern_str)
+        self._walk_patterns(patterns, "", client, output_dir, base_url, exported, skipped)
 
         self.stdout.write(self.style.SUCCESS(f"Exported {len(exported)} pages to {output_dir}"))
         if skipped:
@@ -66,6 +43,23 @@ class Command(BaseCommand):
         if "<" in route:
             return False
         return True
+
+    def _walk_patterns(self, patterns, prefix, client, output_dir, base_url, exported, skipped):
+        for pattern in patterns:
+            try:
+                raw = getattr(pattern, "pattern", None)
+                pattern_str = getattr(raw, "_route", "") if raw else ""
+            except Exception:
+                pattern_str = ""
+
+            full_route = f"{prefix}{pattern_str}"
+
+            if hasattr(pattern, "url_patterns"):
+                self._walk_patterns(pattern.url_patterns, full_route, client, output_dir, base_url, exported, skipped)
+            elif self._is_simple(full_route):
+                self._export_route(client, full_route, output_dir, base_url, exported, skipped)
+            else:
+                skipped.append(full_route)
 
     def _export_route(self, client: Client, route: str, output_dir: Path, base_url: str, exported: list, skipped: list):
         path = "/" + route if not route.startswith("/") else route

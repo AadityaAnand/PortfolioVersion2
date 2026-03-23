@@ -1,845 +1,272 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
-{% block title %}Aaditya Anand - Software Engineer{% endblock %}
-
-{% block extra_css %}
-<style>
-    /* Smooth scrolling offset for fixed navbar */
-    html {
-        scroll-padding-top: 80px;
-    }
-    
-    /* Hero Section */
-    .hero-section {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        opacity: 0.3;
-    }
-    
-    .hero-content {
-        position: relative;
-        z-index: 1;
-        color: white;
-    }
-    
-    .hero-intro {
-        font-size: 1.2rem;
-        font-weight: 300;
-        opacity: 0.9;
-        margin-bottom: 1rem;
-        animation: fadeInUp 1s ease;
-    }
-    
-    .hero-name {
-        font-size: 5rem;
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 1rem;
-        background: linear-gradient(to right, #fff 0%, #f093fb 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: fadeInUp 1s ease 0.2s backwards;
-    }
-    
-    .hero-role {
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        opacity: 0.95;
-        animation: fadeInUp 1s ease 0.3s backwards;
-    }
-    
-    .hero-description {
-        font-size: 1.1rem;
-        font-weight: 300;
-        line-height: 1.8;
-        margin-bottom: 2.5rem;
-        max-width: 600px;
-        opacity: 0.9;
-        animation: fadeInUp 1s ease 0.4s backwards;
-    }
-    
-    .hero-buttons {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-        animation: fadeInUp 1s ease 0.5s backwards;
-    }
-    
-    .btn-primary-custom {
-        background: white;
-        color: #667eea;
-        padding: 15px 35px;
-        border-radius: 10px;
-        font-weight: 600;
-        border: none;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .btn-primary-custom:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-        color: #667eea;
-    }
-    
-    .btn-outline-custom {
-        background: transparent;
-        color: white;
-        padding: 15px 35px;
-        border-radius: 10px;
-        font-weight: 600;
-        border: 2px solid white;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .btn-outline-custom:hover {
-        background: white;
-        color: #667eea;
-        transform: translateY(-3px);
-    }
-    
-    .profile-image-container {
-        position: relative;
-        animation: fadeInUp 1s ease 0.6s backwards;
-    }
-    
-    .profile-image {
-        width: 400px;
-        height: 400px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 10px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
-    
-    .profile-glow {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 450px;
-        height: 450px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-        border-radius: 50%;
-        z-index: -1;
-    }
-    
-    .social-icons {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-    }
-    
-    .social-icon {
-        width: 50px;
-        height: 50px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.3rem;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        backdrop-filter: blur(10px);
-    }
-    
-    .social-icon:hover {
-        background: white;
-        color: #667eea;
-        transform: translateY(-5px);
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* About Section Styles */
-    .about-section {
-        padding: 100px 0;
-        background: #ffffff;
-    }
-    
-    .timeline {
-        position: relative;
-        padding: 50px 0;
-    }
-    
-    .timeline::before {
-        content: '';
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 4px;
-        height: 100%;
-        background: linear-gradient(to bottom, #667eea, #764ba2);
-        border-radius: 2px;
-    }
-    
-    .timeline-item {
-        position: relative;
-        margin-bottom: 50px;
-    }
-    
-    .timeline-item:nth-child(odd) .timeline-content {
-        margin-left: auto;
-        text-align: left;
-    }
-    
-    .timeline-item:nth-child(even) .timeline-content {
-        margin-right: auto;
-        text-align: right;
-    }
-    
-    .timeline-content {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        width: 45%;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-        position: relative;
-    }
-    
-    .timeline-content:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
-    }
-    
-    .timeline-icon {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.5rem;
-        box-shadow: 0 0 0 10px rgba(255,255,255,1);
-        z-index: 2;
-    }
-    
-    .timeline-date {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-    
-    .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        margin-top: 40px;
-    }
-    
-    .skill-card {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-    }
-    
-    .skill-card:hover {
-        transform: translateY(-10px);
-        border-color: #667eea;
-        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
-    }
-    
-    .skill-icon {
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-    }
-    
-    .skill-card h4 {
-        margin-bottom: 15px;
-        color: #0f172a;
-    }
-    
-    .skill-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .skill-tag {
-        background: #f1f5f9;
-        color: #475569;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-    
-    /* Projects Section */
-    .projects-section {
-        padding: 80px 0;
-        background: #f8fafc;
-    }
-    
-    .project-card {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-        transition: all 0.4s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .project-card:hover {
-        transform: translateY(-15px);
-        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
-    }
-    
-    .project-image {
-        width: 100%;
-        height: 250px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .project-image i {
-        font-size: 4rem;
-        color: rgba(255, 255, 255, 0.3);
-    }
-    
-    .project-image::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-    
-    .project-content {
-        padding: 30px;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .project-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-        color: #0f172a;
-    }
-    
-    .project-description {
-        color: #64748b;
-        margin-bottom: 20px;
-        line-height: 1.7;
-        flex-grow: 1;
-    }
-    
-    .project-tech {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 20px;
-    }
-    
-    .tech-badge {
-        background: #f1f5f9;
-        color: #475569;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-    
-    .project-links {
-        display: flex;
-        gap: 15px;
-    }
-    
-    .project-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .project-link-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-    }
-    
-    .project-link-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        color: white;
-    }
-    
-    .project-link-secondary {
-        background: #f1f5f9;
-        color: #475569;
-    }
-    
-    .project-link-secondary:hover {
-        background: #e2e8f0;
-        color: #334155;
-    }
-    
-    /* Responsive */
-    @media (max-width: 992px) {
-        .hero-name {
-            font-size: 3.5rem;
-        }
-        
-        .profile-image {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .profile-glow {
-            width: 350px;
-            height: 350px;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .hero-name {
-            font-size: 2.5rem;
-        }
-        
-        .hero-role {
-            font-size: 1.3rem;
-        }
-        
-        .profile-image {
-            width: 250px;
-            height: 250px;
-            margin-top: 2rem;
-        }
-        
-        .hero-buttons {
-            flex-direction: column;
-            width: 100%;
-        }
-        
-        .btn-primary-custom,
-        .btn-outline-custom {
-            width: 100%;
-            justify-content: center;
-        }
-        
-        .timeline::before {
-            left: 30px;
-        }
-        
-        .timeline-content {
-            width: calc(100% - 80px);
-            margin-left: 80px !important;
-            text-align: left !important;
-        }
-        
-        .timeline-icon {
-            left: 30px;
-        }
-    }
-</style>
-{% endblock %}
+{% block title %}Aaditya Anand | Backend & Cloud Systems{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section id="home" class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <!-- Left: Content -->
-            <div class="col-lg-7 hero-content">
-                <p class="hero-intro">Hello, I'm</p>
-                <h1 class="hero-name">Aaditya Anand</h1>
-                <h2 class="hero-role">Software Engineer | Backend & Cloud Systems</h2>
-                <p class="hero-description">
-                    Backend Software Engineer with 3+ years of experience designing scalable
-                    distributed systems and optimizing high-traffic cloud-native applications.
-                    Strong foundation in system design, microservices architecture, and
-                    performance engineering.
-                </p>
-                
-                <div class="hero-buttons">
-                    {% load static %}
-                    <a href="{% static 'core/documents/AadityaAnandResume.pdf' %}" target="_blank" class="btn-primary-custom">
-                    <i class="fas fa-download"></i> Download Resume</a>
-                    <a href="#contact" class="btn-outline-custom">
-                        <i class="fas fa-envelope"></i> Get In Touch
-                    </a>
+<section id="home" class="section hero-section" data-section>
+    <div class="page-grid hero-grid">
+        <div class="hero-copy" data-reveal="up">
+            <p class="hero-eyebrow">{{ hero.eyebrow }}</p>
+            <h1>{{ hero.headline }}</h1>
+            <p class="hero-summary">{{ hero.summary }}</p>
+
+            <div class="pill-row" aria-label="Core focus areas">
+                {% for pill in hero.pills %}
+                    <span class="pill">{{ pill }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="hero-actions">
+                <a
+                    class="button button-solid"
+                    href="{{ page_paths.resume }}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Open resume
+                </a>
+                <a class="button button-ghost" href="#projects">
+                    Explore selected work
+                </a>
+            </div>
+        </div>
+
+        <aside class="hero-aside" data-reveal="left">
+            <div class="portrait-panel">
+                <div class="portrait-frame">
+                    <img src="{% static 'core/images/AadityAnand.jpg' %}" alt="Portrait of Aaditya Anand">
                 </div>
-                
-                <div class="social-icons">
-                    <a href="https://github.com/AadityaAnand" target="_blank" class="social-icon" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/aadityaanand29/" target="_blank" class="social-icon" title="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="mailto:aadityaanand.tech@gmail.com" class="social-icon" title="Email">
-                        <i class="fas fa-envelope"></i>
-                    </a>
+                <div class="portrait-caption">
+                    <p class="mono-label">System profile</p>
+                    <p>Backend engineer with a strong bias toward reliability, scale, and clean operating surfaces.</p>
                 </div>
             </div>
-            
-            <!-- Right: Profile Image -->
-            <div class="col-lg-5 text-center">
-                <div class="profile-image-container">
-                    <div class="profile-glow"></div>
-                    {% load static %}
-                    <img src="{% static 'core/images/AadityAnand.jpg' %}" alt="Aaditya Anand" class="profile-image">
+
+            <div class="status-panel">
+                <div class="status-header">
+                    <p class="mono-label">Operational snapshot</p>
+                    <span class="status-badge">Available for backend and platform roles</span>
                 </div>
+
+                <dl class="status-list">
+                    {% for item in hero.status %}
+                        <div>
+                            <dt>{{ item.label }}</dt>
+                            <dd>{{ item.value }}</dd>
+                        </div>
+                    {% endfor %}
+                </dl>
             </div>
+        </aside>
+    </div>
+</section>
+
+<section id="impact" class="section section-impact" data-section>
+    <div class="page-grid">
+        {% include 'core/partials/section_heading.html' with eyebrow='Selected impact' title='Measured improvements across concurrency, throughput, release quality, and response time.' copy='The portfolio story is production impact first: better service behavior, better delivery discipline, and better systems under load.' reveal='up' %}
+
+        <div class="impact-grid">
+            {% for metric in impact_metrics %}
+                <article class="impact-card" data-reveal="up">
+                    <p class="impact-value">{{ metric.value }}</p>
+                    <p class="impact-label">{{ metric.label }}</p>
+                </article>
+            {% endfor %}
+        </div>
+
+        <div class="principles-grid">
+            {% for principle in operating_principles %}
+                <article class="principle-card" data-reveal="up">
+                    <p class="mono-label">0{{ forloop.counter }}</p>
+                    <h3>{{ principle.title }}</h3>
+                    <p>{{ principle.description }}</p>
+                </article>
+            {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- About Section -->
-<section id="about" class="about-section">
-    <div class="container">
-        <!-- About Header -->
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h2 class="display-4 fw-bold mb-3">About Me</h2>
-            <p class="lead text-muted">My journey in software engineering</p>
-        </div>
-        
-        <!-- Journey Timeline -->
-        <div class="mb-5" data-aos="fade-up">
-            <h3 class="text-center mb-5">Professional Journey</h3>
-            <div class="timeline">
-                <!-- Timeline Item 1 - UMBC -->
-                <div class="timeline-item" data-aos="fade-right">
-                    <div class="timeline-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <span class="timeline-date">January 2024 - Present</span>
-                        <h4 class="fw-bold mt-2">Software Engineer</h4>
-                        <p class="text-muted mb-2">University of Maryland, Baltimore County (UMBC) | USA</p>
-                        <p class="mb-3">
-                            Reduced incident report resolution time by 30% by redesigning backend workflows
-                            serving 500+ concurrent users. Built real-time analytics dashboards and resolved
-                            dashboard latency by tuning PostgreSQL queries, cutting load times by 50%.
-                        </p>
-                        <div class="mt-3">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">PostgreSQL</span>
-                            <span class="skill-tag">GitLab CI</span>
-                            <span class="skill-tag">OpenAPI</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Timeline Item 2 - Intellicus/Kyvos -->
-                <div class="timeline-item" data-aos="fade-left">
-                    <div class="timeline-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <span class="timeline-date">February 2023 - August 2023</span>
-                        <h4 class="fw-bold mt-2">Software Engineer</h4>
-                        <p class="text-muted mb-2">Intellicus Technologies - Kyvos | India</p>
-                        <p class="mb-3">
-                            Designed microservices-based backend architecture with horizontal scaling on AWS ECS.
-                            Reduced release cycle time by 65% via Jenkins CI/CD and cut database pressure by 35%
-                            with Redis distributed caching. Maintained 99.9% uptime in production.
-                        </p>
-                        <div class="mt-3">
-                            <span class="skill-tag">AWS ECS</span>
-                            <span class="skill-tag">Jenkins</span>
-                            <span class="skill-tag">Redis</span>
-                            <span class="skill-tag">Spring Boot</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Timeline Item 3 - IIT Kharagpur -->
-                <div class="timeline-item" data-aos="fade-right">
-                    <div class="timeline-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <span class="timeline-date">August 2022 - January 2023</span>
-                        <h4 class="fw-bold mt-2">Software Engineer</h4>
-                        <p class="text-muted mb-2">Indian Institute of Technology (IIT) Kharagpur | India</p>
-                        <p class="mb-3">
-                            Scaled data collection to 10K+ requests/min with async Python scraping.
-                            Deployed production-grade ML inference microservice with REST endpoints and
-                            reduced data processing latency from hours to under 30 minutes with ETL pipelines.
-                        </p>
-                        <div class="mt-3">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Docker</span>
-                            <span class="skill-tag">Apache Airflow</span>
-                            <span class="skill-tag">Pandas</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Skills Section -->
-        <div class="mt-5 pt-5" data-aos="fade-up">
-            <h3 class="text-center mb-5">Technical Skills</h3>
-            <div class="skills-grid">
-                <div class="skill-card" data-aos="fade-up" data-aos-delay="0">
-                    <div class="skill-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h4>Languages</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">TypeScript</span>
-                        <span class="skill-tag">SQL</span>
-                        <span class="skill-tag">C++</span>
-                        <span class="skill-tag">Bash</span>
-                    </div>
-                </div>
-
-                <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="skill-icon">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <h4>Backend & Frameworks</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Spring Boot</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">FastAPI</span>
-                        <span class="skill-tag">Flask</span>
-                        <span class="skill-tag">Django</span>
-                        <span class="skill-tag">GraphQL</span>
-                    </div>
-                </div>
-
-                <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="skill-icon">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <h4>Cloud & DevOps</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">AWS</span>
-                        <span class="skill-tag">GCP</span>
-                        <span class="skill-tag">Docker</span>
-                        <span class="skill-tag">Kubernetes</span>
-                        <span class="skill-tag">Terraform</span>
-                        <span class="skill-tag">Jenkins</span>
-                    </div>
-                </div>
-
-                <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="skill-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h4>Databases & Data</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">PostgreSQL</span>
-                        <span class="skill-tag">MongoDB</span>
-                        <span class="skill-tag">Redis</span>
-                        <span class="skill-tag">DynamoDB</span>
-                        <span class="skill-tag">Kafka</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Education Section -->
-        <div class="mt-5 pt-5" data-aos="fade-up">
-            <h3 class="text-center mb-5">Education</h3>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="skill-card mb-4">
-                        <div class="d-flex align-items-start">
-                            <div class="me-4">
-                                <div class="skill-icon mb-0">
-                                    <i class="fas fa-graduation-cap"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h4 class="fw-bold mb-2">Master of Science in Computer Science</h4>
-                                <p class="text-muted mb-2">University of Maryland, Baltimore County</p>
-                                <p class="mb-0"><strong>GPA:</strong> 3.62/4.0 | <strong>Graduated:</strong> May 2025</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-card">
-                        <div class="d-flex align-items-start">
-                            <div class="me-4">
-                                <div class="skill-icon mb-0">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h4 class="fw-bold mb-2">Bachelor of Technology in Computer Science</h4>
-                                <p class="text-muted mb-2">Medi-Caps University, India</p>
-                                <p class="mb-0"><strong>GPA:</strong> 3.6/4.0 | <strong>Graduated:</strong> May 2023</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Projects Section -->
-<section id="projects" class="projects-section">
-    <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h2 class="display-4 fw-bold mb-3">Featured Projects</h2>
-            <p class="lead text-muted">Building scalable, real-time applications with modern technologies</p>
-        </div>
-        
-        <div class="row g-4">
-            <!-- Project 1: Real-Time Collaborative Code Editor -->
-<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
-    <div class="project-card">
-        <div class="project-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-            <i class="fas fa-code"></i>
-        </div>
-        <div class="project-content">
-            <h3 class="project-title">Real-Time Collaborative Code Editor</h3>
-            <p class="project-description">
-                Full-stack collaborative code editor supporting real-time simultaneous 
-                multi-user editing with sub-200ms latency. Features JWT-based authentication, 
-                role-based permissions, and optimized rendering for 60fps performance with 
-                real-time cursor tracking and presence indicators.
+<section id="experience" class="section section-experience" data-section>
+    <div class="page-grid ledger-grid">
+        <div class="ledger-intro">
+            {% include 'core/partials/section_heading.html' with eyebrow='Operational record' title='Experience presented as systems work, not resume padding.' copy='Each role is framed around scale, architecture decisions, and measurable outcomes.' %}
+            <p class="ledger-note" data-reveal="up">
+                The emphasis is on what changed in production: latency, release confidence, throughput, and how the system behaved after the work shipped.
             </p>
-            <div class="project-tech">
-                <span class="tech-badge">React.js</span>
-                <span class="tech-badge">Node.js</span>
-                <span class="tech-badge">Socket.io</span>
-                <span class="tech-badge">MongoDB</span>
-                <span class="tech-badge">JWT</span>
+        </div>
+
+        <div class="ledger-list">
+            {% for entry in experience_log %}
+                <article class="ledger-entry" data-reveal="up">
+                    <div class="ledger-rail">
+                        <p class="mono-label">{{ entry.period }}</p>
+                        <span class="ledger-node" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="ledger-card">
+                        <div class="ledger-header">
+                            <div>
+                                <p class="panel-kicker">{{ entry.company }}</p>
+                                <h3>{{ entry.role }}</h3>
+                            </div>
+                            <p class="ledger-location">{{ entry.location }}</p>
+                        </div>
+
+                        <p class="ledger-summary">{{ entry.summary }}</p>
+
+                        <ul class="outcome-list">
+                            {% for outcome in entry.outcomes %}
+                                <li>{{ outcome }}</li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="metric-row" aria-label="Key metrics">
+                            {% for metric in entry.metrics %}
+                                <span class="metric-pill">{{ metric }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="tag-row" aria-label="Technologies used">
+                            {% for item in entry.stack %}
+                                <span class="tag">{{ item }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="section section-projects" data-section>
+    <div class="page-grid">
+        {% include 'core/partials/section_heading.html' with eyebrow='Selected work' title='Projects framed like engineering case studies.' copy='The focus here is architecture, operating constraints, and why each build matters beyond surface-level features.' reveal='up' %}
+
+        <div class="project-stack">
+            {% for project in project_spotlights %}
+                <article class="project-dossier" data-reveal="up">
+                    <div class="project-sidebar">
+                        <p class="mono-label">Case {{ project.index }}</p>
+                        <h3>{{ project.title }}</h3>
+                        <p class="project-tagline">{{ project.tagline }}</p>
+
+                        <div class="tag-row" aria-label="Project stack">
+                            {% for item in project.stack %}
+                                <span class="tag">{{ item }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="project-links">
+                            {% for link in project.links %}
+                                <a href="{{ link.url }}" target="_blank" rel="noopener">
+                                    {{ link.label }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="project-body">
+                        <div class="project-block">
+                            <p class="project-block-label">Challenge</p>
+                            <p>{{ project.challenge }}</p>
+                        </div>
+
+                        <div class="project-block">
+                            <p class="project-block-label">Architecture</p>
+                            <ul class="architecture-list">
+                                {% for point in project.architecture %}
+                                    <li>{{ point }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="project-block">
+                            <p class="project-block-label">Outcome</p>
+                            <p>{{ project.outcome }}</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="capabilities" class="section section-capabilities" data-section>
+    <div class="page-grid capability-layout">
+        <div class="capability-intro">
+            {% include 'core/partials/section_heading.html' with eyebrow='Engineering toolbox' title='A technical profile centered on services, platforms, data movement, and reliability.' copy='The tools matter, but the through-line is system behavior: clean boundaries, predictable deployment, and performance that can be defended with evidence.' %}
+        </div>
+
+        <div class="capability-grid">
+            {% for area in capability_areas %}
+                <article class="capability-card" data-reveal="up">
+                    <p class="mono-label">0{{ forloop.counter }}</p>
+                    <h3>{{ area.title }}</h3>
+                    <p>{{ area.summary }}</p>
+
+                    <div class="tag-row" aria-label="Capability tools">
+                        {% for tool in area.tools %}
+                            <span class="tag">{{ tool }}</span>
+                        {% endfor %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-education">
+    <div class="page-grid education-grid">
+        <div class="education-copy">
+            {% include 'core/partials/section_heading.html' with eyebrow='Credentials' title='Academic depth paired with practical systems execution.' copy='Formal training shows up here as structured thinking, stronger tradeoff analysis, and an ability to carry ideas cleanly into production work.' reveal='up' %}
+        </div>
+
+        <div class="education-list">
+            {% for record in education_records %}
+                <article class="education-card" data-reveal="up">
+                    <p class="mono-label">0{{ forloop.counter }}</p>
+                    <h3>{{ record.degree }}</h3>
+                    <p class="education-institution">{{ record.institution }}</p>
+                    <p class="education-detail">{{ record.detail }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="section section-cta" data-section>
+    <div class="page-grid cta-grid">
+        <div class="cta-copy" data-reveal="up">
+            <p class="section-eyebrow">Command center</p>
+            <h2>Looking for an engineer who cares about service behavior, release quality, and operational clarity?</h2>
+            <p class="section-copy">
+                I am most interested in backend, distributed systems, platform, and cloud-infrastructure work where architecture quality actually matters.
+            </p>
+        </div>
+
+        <div class="cta-panel" data-reveal="up">
+            <div class="cta-channel-list">
+                {% for channel in contact_channels %}
+                    <a class="channel-link" href="{{ channel.href }}" target="_blank" rel="noopener">
+                        <span>{{ channel.label }}</span>
+                        <strong>{{ channel.value }}</strong>
+                    </a>
+                {% endfor %}
             </div>
-            <div class="project-links">
-                <a href="https://github.com/AadityaAnand/CodeEditor" class="project-link project-link-primary" target="_blank">
-                    <i class="fab fa-github"></i> View Code
+
+            <div class="cta-actions">
+                <a class="button button-solid" href="{{ page_paths.contact }}">Open contact form</a>
+                <a
+                    class="button button-ghost"
+                    href="{{ page_paths.resume }}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Review resume
                 </a>
             </div>
         </div>
     </div>
-</div>
-            
-            <!-- Project 2: Opportunity & Trend Detection -->
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Opportunity & Trend Detection</h3>
-                        <p class="project-description">
-                            Processed 100K+ daily social data points by building a Kafka-driven ETL
-                            pipeline with DBSCAN-based clustering, reducing API response times from
-                            800ms to under 300ms. Enabled independent scaling of ingestion, clustering,
-                            and API services through Docker containerization.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">Python</span>
-                            <span class="tech-badge">FastAPI</span>
-                            <span class="tech-badge">Kafka</span>
-                            <span class="tech-badge">scikit-learn</span>
-                            <span class="tech-badge">PostgreSQL</span>
-                            <span class="tech-badge">Docker</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/AadityaAnand" class="project-link project-link-primary" target="_blank">
-                                <i class="fab fa-github"></i> View Code
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Contact CTA Section -->
-<section id="contact" class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center text-white" data-aos="fade-up">
-                <h2 class="display-4 fw-bold mb-4">Let's Build Something Together</h2>
-                <p class="lead mb-4">
-                    Have a project in mind? Looking for a collaborator? 
-                    Or just want to chat about tech? I'd love to hear from you!
-                </p>
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="mailto:aadityaanand.tech@gmail.com" class="btn btn-light btn-lg">
-                        <i class="fas fa-envelope me-2"></i> Email Me
-                    </a>
-                    <a href="https://www.linkedin.com/in/aadityaanand29/" class="btn btn-outline-light btn-lg" target="_blank">
-                        <i class="fab fa-linkedin me-2"></i> LinkedIn
-                    </a>
-                    <a href="https://github.com/AadityaAnand" class="btn btn-outline-light btn-lg" target="_blank">
-                        <i class="fab fa-github me-2"></i> GitHub
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 {% endblock %}
-

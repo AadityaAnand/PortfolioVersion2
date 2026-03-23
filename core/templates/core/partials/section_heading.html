@@ -1,0 +1,9 @@
+<div class="section-heading{% if align == 'center' %} is-centered{% endif %}" {% if reveal %}data-reveal="{{ reveal }}"{% endif %}>
+    {% if eyebrow %}
+        <p class="section-eyebrow">{{ eyebrow }}</p>
+    {% endif %}
+    <h2>{{ title }}</h2>
+    {% if copy %}
+        <p class="section-copy">{{ copy }}</p>
+    {% endif %}
+</div>

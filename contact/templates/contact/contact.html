@@ -1,245 +1,124 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Contact - Aaditya Anand{% endblock %}
-
-{% block extra_css %}
-<style>
-    .contact-hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 100px 0 80px;
-        color: white;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .contact-hero::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        opacity: 0.3;
-    }
-    
-    .contact-hero-content {
-        position: relative;
-        z-index: 1;
-    }
-    
-    .contact-form-section {
-        padding: 80px 0;
-        background: #f8fafc;
-    }
-    
-    .form-card {
-        background: white;
-        border-radius: 20px;
-        padding: 50px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-    }
-    
-    .form-control {
-        border: 2px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 12px 20px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-    }
-    
-    .form-control:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        outline: none;
-    }
-    
-    .form-label {
-        font-weight: 600;
-        color: #334155;
-        margin-bottom: 8px;
-    }
-    
-    .btn-submit {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 15px 40px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        width: 100%;
-    }
-    
-    .btn-submit:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        color: white;
-    }
-    
-    .contact-info {
-        background: white;
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-        height: 100%;
-    }
-    
-    .contact-info-item {
-        display: flex;
-        align-items: start;
-        margin-bottom: 30px;
-    }
-    
-    .contact-icon {
-        width: 50px;
-        height: 50px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.3rem;
-        margin-right: 20px;
-        flex-shrink: 0;
-    }
-    
-    .alert {
-        border-radius: 10px;
-        padding: 15px 20px;
-        margin-bottom: 30px;
-    }
-</style>
-{% endblock %}
+{% block title %}Contact | Aaditya Anand{% endblock %}
 
 {% block content %}
-<!-- Contact Hero -->
-<section class="contact-hero">
-    <div class="container contact-hero-content">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-                <h1 class="display-3 fw-bold mb-4">Get In Touch</h1>
-                <p class="lead mb-0">
-                    Have a question or want to work together? 
-                    I'd love to hear from you!
-                </p>
+<section class="section contact-hero">
+    <div class="page-grid contact-hero-grid">
+        <div class="contact-intro" data-reveal="up">
+            <p class="section-eyebrow">Contact</p>
+            <h1>Start with the problem, the role, or the system you want to build.</h1>
+            <p class="hero-summary">
+                If the work involves backend systems, cloud infrastructure, APIs, or reliability-minded product delivery, I would love to hear about it.
+            </p>
+
+            <div class="contact-note-list">
+                {% for note in contact_notes %}
+                    <p>{{ note }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="hero-actions">
+                <a class="button button-ghost" href="{{ page_paths.home }}#projects">Review selected work</a>
+                <a
+                    class="button button-solid"
+                    href="{{ page_paths.resume }}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Open resume
+                </a>
             </div>
         </div>
+
+        <aside class="contact-side-panel" data-reveal="left">
+            <div class="status-panel">
+                <div class="status-header">
+                    <p class="mono-label">Channels</p>
+                    <span class="status-badge">Response window: typically within 48 hours</span>
+                </div>
+
+                <div class="cta-channel-list">
+                    {% for channel in contact_channels %}
+                        <a class="channel-link" href="{{ channel.href }}" target="_blank" rel="noopener">
+                            <span>{{ channel.label }}</span>
+                            <strong>{{ channel.value }}</strong>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </aside>
     </div>
 </section>
 
-<!-- Contact Form Section -->
-<section class="contact-form-section">
-    <div class="container">
-        <div class="row g-4">
-            <!-- Contact Form -->
-            <div class="col-lg-7" data-aos="fade-right">
-                <div class="form-card">
-                    <h2 class="mb-4">Send Me a Message</h2>
-                    
-                    <!-- Display success/error messages -->
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        {% endfor %}
+<section class="section contact-form-section">
+    <div class="page-grid contact-layout">
+        <div class="contact-form-card" data-reveal="up">
+            <div class="form-header">
+                <p class="mono-label">Message intake</p>
+                <h2>Send a direct note</h2>
+                <p>Share the role, context, system constraints, or collaboration idea. Concise is perfect.</p>
+            </div>
+
+            {% if messages %}
+                <div class="message-stack" aria-live="polite">
+                    {% for message in messages %}
+                        <div class="flash-message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" class="contact-form" novalidate>
+                {% csrf_token %}
+
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label for="{{ form.name.id_for_label }}">Name</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <p class="field-error">{{ form.name.errors|striptags }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="field-group">
+                        <label for="{{ form.email.id_for_label }}">Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <p class="field-error">{{ form.email.errors|striptags }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label for="{{ form.subject.id_for_label }}">Subject</label>
+                    {{ form.subject }}
+                    {% if form.subject.errors %}
+                        <p class="field-error">{{ form.subject.errors|striptags }}</p>
                     {% endif %}
-                    
-                    <form method="POST" novalidate>
-                        {% csrf_token %}
-                        
-                        <div class="mb-4">
-                            <label for="{{ form.name.id_for_label }}" class="form-label">Name *</label>
-                            {{ form.name }}
-                            {% if form.name.errors %}
-                                <div class="text-danger mt-2">{{ form.name.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="{{ form.email.id_for_label }}" class="form-label">Email *</label>
-                            {{ form.email }}
-                            {% if form.email.errors %}
-                                <div class="text-danger mt-2">{{ form.email.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="{{ form.subject.id_for_label }}" class="form-label">Subject *</label>
-                            {{ form.subject }}
-                            {% if form.subject.errors %}
-                                <div class="text-danger mt-2">{{ form.subject.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="{{ form.message.id_for_label }}" class="form-label">Message *</label>
-                            {{ form.message }}
-                            {% if form.message.errors %}
-                                <div class="text-danger mt-2">{{ form.message.errors }}</div>
-                            {% endif %}
-                        </div>
-                        
-                        <button type="submit" class="btn btn-submit">
-                            <i class="fas fa-paper-plane me-2"></i> Send Message
-                        </button>
-                    </form>
                 </div>
-            </div>
-        
-            <div class="col-lg-5" data-aos="fade-left">
-                <div class="contact-info">
-                    <h3 class="mb-4">Contact Information</h3>
-                    
-                    <div class="contact-info-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div>
-                            <h5 class="mb-1">Email</h5>
-                            <p class="text-muted mb-0">aadityaanand.tech@gmail.com</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-info-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div>
-                            <h5 class="mb-1">Location</h5>
-                            <p class="text-muted mb-0">Irvine, CA</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-info-item">
-                        <div class="contact-icon">
-                            <i class="fab fa-linkedin"></i>
-                        </div>
-                        <div>
-                            <h5 class="mb-1">LinkedIn</h5>
-                            <a href="https://www.linkedin.com/in/aadityaanand29/" target="_blank" class="text-decoration-none">
-                                Connect with me
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-info-item mb-0">
-                        <div class="contact-icon">
-                            <i class="fab fa-github"></i>
-                        </div>
-                        <div>
-                            <h5 class="mb-1">GitHub</h5>
-                            <a href="https://github.com/AadityaAnand" target="_blank" class="text-decoration-none">
-                                Check out my code
-                            </a>
-                        </div>
-                    </div>
+
+                <div class="field-group">
+                    <label for="{{ form.message.id_for_label }}">Message</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <p class="field-error">{{ form.message.errors|striptags }}</p>
+                    {% endif %}
                 </div>
-            </div>
+
+                <button type="submit" class="button button-solid submit-button">Send message</button>
+            </form>
+        </div>
+
+        <div class="contact-brief" data-reveal="up">
+            <article class="brief-card">
+                <p class="mono-label">Best conversations</p>
+                <h3>Where I add the most value</h3>
+                <ul class="outcome-list">
+                    <li>Backend and platform engineering roles with meaningful architecture ownership.</li>
+                    <li>Teams improving reliability, throughput, CI/CD, data movement, or service boundaries.</li>
+                    <li>Projects that need production credibility rather than portfolio-level polish alone.</li>
+                </ul>
+            </article>
         </div>
     </div>
 </section>
