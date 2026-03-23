@@ -7,13 +7,16 @@
 <section id="home" class="section hero-section" data-section>
     <div class="page-grid hero-grid">
         <div class="hero-copy" data-reveal="up">
-            <p class="hero-eyebrow">{{ hero.eyebrow }}</p>
-            <h1>{{ hero.headline }}</h1>
-            <p class="hero-summary">{{ hero.summary }}</p>
+            <h1>{{ hero.name }}</h1>
+            <p class="hero-role">{{ hero.role }}</p>
+            <p class="hero-statement">{{ hero.statement }}</p>
 
-            <div class="pill-row" aria-label="Core focus areas">
-                {% for pill in hero.pills %}
-                    <span class="pill">{{ pill }}</span>
+            <div class="hero-metric-strip" aria-label="Selected impact">
+                {% for metric in hero.metrics %}
+                    <span class="hero-metric">
+                        <strong>{{ metric.value }}</strong>
+                        <small>{{ metric.label }}</small>
+                    </span>
                 {% endfor %}
             </div>
 
@@ -39,24 +42,15 @@
                 </div>
                 <div class="portrait-caption">
                     <p class="mono-label">System profile</p>
-                    <p>Backend engineer with a strong bias toward reliability, scale, and clean operating surfaces.</p>
+                    <p>{{ hero.signal }}</p>
                 </div>
             </div>
 
-            <div class="status-panel">
+            <div class="status-panel hero-note-panel">
                 <div class="status-header">
-                    <p class="mono-label">Operational snapshot</p>
+                    <p class="mono-label">Availability</p>
                     <span class="status-badge">Available for backend and platform roles</span>
                 </div>
-
-                <dl class="status-list">
-                    {% for item in hero.status %}
-                        <div>
-                            <dt>{{ item.label }}</dt>
-                            <dd>{{ item.value }}</dd>
-                        </div>
-                    {% endfor %}
-                </dl>
             </div>
         </aside>
     </div>
@@ -64,7 +58,7 @@
 
 <section id="impact" class="section section-impact" data-section>
     <div class="page-grid">
-        {% include 'core/partials/section_heading.html' with eyebrow='Selected impact' title='Measured improvements across concurrency, throughput, release quality, and response time.' copy='The portfolio story is production impact first: better service behavior, better delivery discipline, and better systems under load.' reveal='up' %}
+        {% include 'core/partials/section_heading.html' with eyebrow='Selected impact' title='Production signal.' reveal='up' %}
 
         <div class="impact-grid">
             {% for metric in impact_metrics %}
@@ -74,26 +68,13 @@
                 </article>
             {% endfor %}
         </div>
-
-        <div class="principles-grid">
-            {% for principle in operating_principles %}
-                <article class="principle-card" data-reveal="up">
-                    <p class="mono-label">0{{ forloop.counter }}</p>
-                    <h3>{{ principle.title }}</h3>
-                    <p>{{ principle.description }}</p>
-                </article>
-            {% endfor %}
-        </div>
     </div>
 </section>
 
 <section id="experience" class="section section-experience" data-section>
     <div class="page-grid ledger-grid">
         <div class="ledger-intro">
-            {% include 'core/partials/section_heading.html' with eyebrow='Operational record' title='Experience presented as systems work, not resume padding.' copy='Each role is framed around scale, architecture decisions, and measurable outcomes.' %}
-            <p class="ledger-note" data-reveal="up">
-                The emphasis is on what changed in production: latency, release confidence, throughput, and how the system behaved after the work shipped.
-            </p>
+            {% include 'core/partials/section_heading.html' with eyebrow='Experience' title='Operational record.' %}
         </div>
 
         <div class="ledger-list">
@@ -110,28 +91,25 @@
                                 <p class="panel-kicker">{{ entry.company }}</p>
                                 <h3>{{ entry.role }}</h3>
                             </div>
-                            <p class="ledger-location">{{ entry.location }}</p>
+                            <p class="ledger-location">{{ entry.period }}</p>
                         </div>
 
-                        <p class="ledger-summary">{{ entry.summary }}</p>
-
-                        <ul class="outcome-list">
-                            {% for outcome in entry.outcomes %}
-                                <li>{{ outcome }}</li>
-                            {% endfor %}
-                        </ul>
-
-                        <div class="metric-row" aria-label="Key metrics">
-                            {% for metric in entry.metrics %}
-                                <span class="metric-pill">{{ metric }}</span>
-                            {% endfor %}
-                        </div>
+                        <p class="ledger-summary">{{ entry.impact }}</p>
 
                         <div class="tag-row" aria-label="Technologies used">
                             {% for item in entry.stack %}
                                 <span class="tag">{{ item }}</span>
                             {% endfor %}
                         </div>
+
+                        <details class="inline-disclosure">
+                            <summary>Read more</summary>
+                            <ul class="compact-detail-list">
+                                {% for detail in entry.details %}
+                                    <li>{{ detail }}</li>
+                                {% endfor %}
+                            </ul>
+                        </details>
                     </div>
                 </article>
             {% endfor %}
@@ -141,7 +119,7 @@
 
 <section id="projects" class="section section-projects" data-section>
     <div class="page-grid">
-        {% include 'core/partials/section_heading.html' with eyebrow='Selected work' title='Projects framed like engineering case studies.' copy='The focus here is architecture, operating constraints, and why each build matters beyond surface-level features.' reveal='up' %}
+        {% include 'core/partials/section_heading.html' with eyebrow='Projects' title='Selected work.' reveal='up' %}
 
         <div class="project-stack">
             {% for project in project_spotlights %}
@@ -149,7 +127,7 @@
                     <div class="project-sidebar">
                         <p class="mono-label">Case {{ project.index }}</p>
                         <h3>{{ project.title }}</h3>
-                        <p class="project-tagline">{{ project.tagline }}</p>
+                        <p class="project-tagline">{{ project.summary }}</p>
 
                         <div class="tag-row" aria-label="Project stack">
                             {% for item in project.stack %}
@@ -167,24 +145,14 @@
                     </div>
 
                     <div class="project-body">
-                        <div class="project-block">
-                            <p class="project-block-label">Challenge</p>
-                            <p>{{ project.challenge }}</p>
-                        </div>
-
-                        <div class="project-block">
-                            <p class="project-block-label">Architecture</p>
-                            <ul class="architecture-list">
-                                {% for point in project.architecture %}
-                                    <li>{{ point }}</li>
+                        <details class="inline-disclosure project-disclosure">
+                            <summary>Case details</summary>
+                            <ul class="compact-detail-list">
+                                {% for detail in project.details %}
+                                    <li>{{ detail }}</li>
                                 {% endfor %}
                             </ul>
-                        </div>
-
-                        <div class="project-block">
-                            <p class="project-block-label">Outcome</p>
-                            <p>{{ project.outcome }}</p>
-                        </div>
+                        </details>
                     </div>
                 </article>
             {% endfor %}
@@ -195,7 +163,7 @@
 <section id="capabilities" class="section section-capabilities" data-section>
     <div class="page-grid capability-layout">
         <div class="capability-intro">
-            {% include 'core/partials/section_heading.html' with eyebrow='Engineering toolbox' title='A technical profile centered on services, platforms, data movement, and reliability.' copy='The tools matter, but the through-line is system behavior: clean boundaries, predictable deployment, and performance that can be defended with evidence.' %}
+            {% include 'core/partials/section_heading.html' with eyebrow='Skills' title='Core toolbox.' %}
         </div>
 
         <div class="capability-grid">
@@ -203,7 +171,6 @@
                 <article class="capability-card" data-reveal="up">
                     <p class="mono-label">0{{ forloop.counter }}</p>
                     <h3>{{ area.title }}</h3>
-                    <p>{{ area.summary }}</p>
 
                     <div class="tag-row" aria-label="Capability tools">
                         {% for tool in area.tools %}
@@ -219,7 +186,7 @@
 <section class="section section-education">
     <div class="page-grid education-grid">
         <div class="education-copy">
-            {% include 'core/partials/section_heading.html' with eyebrow='Credentials' title='Academic depth paired with practical systems execution.' copy='Formal training shows up here as structured thinking, stronger tradeoff analysis, and an ability to carry ideas cleanly into production work.' reveal='up' %}
+            {% include 'core/partials/section_heading.html' with eyebrow='Education' title='Credentials.' reveal='up' %}
         </div>
 
         <div class="education-list">
@@ -238,11 +205,9 @@
 <section id="contact" class="section section-cta" data-section>
     <div class="page-grid cta-grid">
         <div class="cta-copy" data-reveal="up">
-            <p class="section-eyebrow">Command center</p>
-            <h2>Looking for an engineer who cares about service behavior, release quality, and operational clarity?</h2>
-            <p class="section-copy">
-                I am most interested in backend, distributed systems, platform, and cloud-infrastructure work where architecture quality actually matters.
-            </p>
+            <p class="section-eyebrow">Contact</p>
+            <h2>Open to backend, platform, and cloud engineering roles.</h2>
+            <p class="section-copy">Let&apos;s talk.</p>
         </div>
 
         <div class="cta-panel" data-reveal="up">

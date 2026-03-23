@@ -39,23 +39,15 @@ def build_page_paths(page_key):
 
 
 HERO = {
-    "eyebrow": "Backend / Cloud / Distributed Systems",
-    "headline": "Engineering backend systems that stay fast, observable, and reliable in production.",
-    "summary": (
-        "Backend engineer focused on scalable distributed systems, cloud-native applications, "
-        "performance tuning, and production-grade delivery across data-heavy platforms."
-    ),
-    "pills": [
-        "Distributed systems",
-        "Microservices",
-        "Cloud infrastructure",
-        "Performance engineering",
+    "name": SITE_NAME,
+    "role": SITE_ROLE,
+    "statement": "Backend engineer building scalable cloud systems, distributed services, and production-grade platforms.",
+    "metrics": [
+        {"value": "500+", "label": "users"},
+        {"value": "65%", "label": "faster releases"},
+        {"value": "10K+", "label": "req/min"},
     ],
-    "status": [
-        {"label": "Focus", "value": "Platform, API, and infrastructure-heavy builds"},
-        {"label": "Strength", "value": "Throughput, release quality, and service reliability"},
-        {"label": "Mode", "value": "Hands-on engineer with strong systems and delivery bias"},
-    ],
+    "signal": "Platform, APIs, reliability.",
 }
 
 
@@ -67,79 +59,44 @@ IMPACT_METRICS = [
 ]
 
 
-OPERATING_PRINCIPLES = [
-    {
-        "title": "Architecture with restraint",
-        "description": (
-            "Clear service boundaries, deliberate interfaces, and systems that stay understandable "
-            "as they grow."
-        ),
-    },
-    {
-        "title": "Reliability as a product feature",
-        "description": (
-            "CI, tests, observability, and operational feedback loops are built in early, not patched on later."
-        ),
-    },
-    {
-        "title": "Performance with evidence",
-        "description": (
-            "Caching, query design, concurrency strategy, and profiling decisions tied to measurable outcomes."
-        ),
-    },
-]
+OPERATING_PRINCIPLES = []
 
 
 EXPERIENCE_LOG = [
     {
         "period": "2024 - Present",
         "role": "Software Engineer",
-        "company": "University of Maryland, Baltimore County",
+        "company": "UMBC",
         "location": "United States",
-        "summary": (
-            "Redesigned academic workflow backends and analytics tooling to make internal systems faster, "
-            "more reliable, and easier to operate under sustained usage."
-        ),
-        "outcomes": [
-            "Reworked backend workflows for 500+ concurrent users, cutting incident resolution time by 30%.",
-            "Reduced dashboard load times by 50% through PostgreSQL query tuning and API response shaping.",
-            "Improved release reliability with CI-driven testing, review discipline, and stronger delivery checks.",
+        "impact": "Improved incident resolution by 30% for workflows serving 500+ users.",
+        "details": [
+            "Cut dashboard load times by 50% through PostgreSQL tuning.",
+            "Improved release reliability with CI-driven testing and stronger delivery checks.",
         ],
-        "metrics": ["500+ users", "30% faster incident resolution", "50% faster dashboards"],
         "stack": ["Python", "PostgreSQL", "OpenAPI", "GitLab CI", "Testing"],
     },
     {
         "period": "2023",
         "role": "Software Engineer",
-        "company": "Intellicus Technologies / Kyvos",
+        "company": "Intellicus / Kyvos",
         "location": "India",
-        "summary": (
-            "Built AWS-hosted microservices and delivery pipelines for analytics infrastructure serving "
-            "enterprise workloads at increasing scale."
-        ),
-        "outcomes": [
-            "Scaled microservices on AWS ECS to support 70% more enterprise client demand.",
-            "Accelerated release cycles by 65% with CI/CD improvements across build and deployment workflows.",
-            "Reduced database pressure by 35% with Redis caching and drove 40% throughput improvement.",
+        "impact": "Scaled AWS ECS microservices and accelerated releases by 65%.",
+        "details": [
+            "Supported 70% more enterprise client demand on a microservices architecture.",
+            "Reduced database pressure by 35% with Redis and improved throughput by 40%.",
         ],
-        "metrics": ["70% client scale", "65% faster releases", "40% throughput gain"],
         "stack": ["AWS ECS", "Spring Boot", "Redis", "Jenkins", "Microservices"],
     },
     {
         "period": "2022 - 2023",
         "role": "Software Engineer",
-        "company": "Indian Institute of Technology, Kharagpur",
+        "company": "IIT Kharagpur",
         "location": "India",
-        "summary": (
-            "Delivered research-grade ingestion, ML-serving, and ETL systems that turned high-volume data "
-            "collection into reliable operational pipelines."
-        ),
-        "outcomes": [
-            "Scaled asynchronous scraping infrastructure to 10K+ requests per minute.",
-            "Built an ML inference microservice with REST endpoints for production-style model serving.",
-            "Compressed ETL runtimes from hours to under 30 minutes through pipeline redesign.",
+        "impact": "Built async pipelines processing 10K+ requests per minute.",
+        "details": [
+            "Delivered an ML inference microservice for production-style model serving.",
+            "Reduced ETL runtime from hours to under 30 minutes.",
         ],
-        "metrics": ["10K+ req/min", "<30 min ETL", "ML inference service"],
         "stack": ["Python", "Docker", "Airflow", "Pandas", "REST APIs"],
     },
 ]
@@ -149,20 +106,11 @@ PROJECT_SPOTLIGHTS = [
     {
         "index": "01",
         "title": "Real-Time Collaborative Code Editor",
-        "tagline": "Low-latency multi-user editing with permissions, presence, and production-minded session control.",
-        "challenge": (
-            "Design a collaborative editing system that feels immediate under concurrent activity while "
-            "preserving role control, session security, and interface responsiveness."
-        ),
-        "architecture": [
-            "Socket-driven synchronization for shared editing, presence, and cursor updates.",
-            "JWT-based authentication and role-aware access controls for secure collaboration.",
-            "Mongo-backed session state with rendering optimizations aimed at 60fps interaction.",
+        "summary": "Sub-200ms collaborative editing with secure sessions and live presence.",
+        "details": [
+            "Socket-driven sync for edits, cursors, and presence.",
+            "JWT auth with role-aware access control.",
         ],
-        "outcome": (
-            "Delivered sub-200ms collaborative editing with real-time presence indicators and a workflow "
-            "that behaves more like an engineering tool than a demo."
-        ),
         "stack": ["React", "Node.js", "Socket.io", "MongoDB", "JWT"],
         "links": [
             {"label": "Source", "url": "https://github.com/AadityaAnand/CodeEditor"},
@@ -171,20 +119,11 @@ PROJECT_SPOTLIGHTS = [
     {
         "index": "02",
         "title": "Opportunity & Trend Detection",
-        "tagline": "Event-driven analytics pipeline for surfacing emerging signals from large social datasets.",
-        "challenge": (
-            "Process high-volume social data fast enough to detect clusters and opportunities while keeping "
-            "API latency low for downstream consumers."
-        ),
-        "architecture": [
-            "Kafka-based ingestion and ETL pipeline handling 100K+ daily social data points.",
-            "FastAPI services split across ingestion, clustering, and query responsibilities.",
-            "DBSCAN-based clustering with Dockerized services for isolated scaling and deployment.",
+        "summary": "Kafka-driven analytics pipeline processing 100K+ daily signals.",
+        "details": [
+            "Reduced API latency from 800ms to under 300ms.",
+            "Split ingestion, clustering, and API services for independent scale.",
         ],
-        "outcome": (
-            "Reduced response times from 800ms to under 300ms and created a service layout that can scale "
-            "each stage independently as usage grows."
-        ),
         "stack": ["Python", "FastAPI", "Kafka", "PostgreSQL", "Docker", "scikit-learn"],
         "links": [
             {"label": "GitHub", "url": "https://github.com/AadityaAnand"},
@@ -195,24 +134,20 @@ PROJECT_SPOTLIGHTS = [
 
 CAPABILITY_AREAS = [
     {
-        "title": "Distributed systems",
-        "summary": "Service boundaries, async workflows, queue-backed processing, and stable system behavior under load.",
-        "tools": ["Microservices", "Kafka", "Redis", "gRPC / REST", "Concurrency design"],
+        "title": "Backend",
+        "tools": ["Python", "Java", "Spring Boot", "FastAPI", "Django"],
     },
     {
-        "title": "Cloud infrastructure",
-        "summary": "Cloud-native deployment and delivery workflows built for repeatability, scale, and clean operations.",
-        "tools": ["AWS", "ECS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+        "title": "Cloud",
+        "tools": ["AWS", "ECS", "Docker", "Kubernetes", "Terraform"],
     },
     {
-        "title": "Backend delivery",
-        "summary": "API design, schema decisions, integration layers, and CI systems that keep shipping predictable.",
-        "tools": ["Python", "Java", "Spring Boot", "FastAPI", "Django", "OpenAPI"],
+        "title": "Systems",
+        "tools": ["Microservices", "Kafka", "Redis", "REST APIs", "CI/CD"],
     },
     {
-        "title": "Data and performance",
-        "summary": "Query tuning, cache strategy, ETL design, and throughput work that improves real production outcomes.",
-        "tools": ["PostgreSQL", "MongoDB", "Redis", "Spark", "Airflow", "Profiling"],
+        "title": "Data",
+        "tools": ["PostgreSQL", "MongoDB", "Airflow", "Spark", "Performance"],
     },
 ]
 
@@ -221,12 +156,12 @@ EDUCATION_RECORDS = [
     {
         "degree": "Master of Science in Computer Science",
         "institution": "University of Maryland, Baltimore County",
-        "detail": "Graduated May 2025 · GPA 3.62 / 4.0",
+        "detail": "2025 · GPA 3.62 / 4.0",
     },
     {
         "degree": "Bachelor of Technology in Computer Science",
         "institution": "Medi-Caps University",
-        "detail": "Graduated May 2023 · GPA 3.6 / 4.0",
+        "detail": "2023 · GPA 3.6 / 4.0",
     },
 ]
 
@@ -239,7 +174,6 @@ CONTACT_CHANNELS = [
 
 
 CONTACT_NOTES = [
-    "Best fit: backend, platform, distributed systems, or cloud-infrastructure roles.",
-    "Open to technical discussions around APIs, performance engineering, and production architecture.",
-    "Available for full-time opportunities and serious project collaborations.",
+    "Open to backend, platform, and cloud engineering roles.",
+    "Best fit: APIs, reliability, infrastructure, and data-heavy systems.",
 ]
