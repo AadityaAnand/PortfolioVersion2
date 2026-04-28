@@ -1,149 +1,224 @@
-## PortfolioVersion2
+# Aaditya Anand Portfolio
 
-Personal portfolio built with Django. Deploy as a dynamic app (Railway) or export to static HTML for free hosting (GitHub Pages, Netlify).
+AI-first portfolio rebuilt with:
 
-### Tech Stack
-* Python / Django
-* Gunicorn (production WSGI server)
-* WhiteNoise (static file serving)
+- React
+- Vite
+- TypeScript
+- Tailwind CSS
+- Framer Motion
 
----
+The current app is designed to position Aaditya as a Forward Deployed Engineer, AI Engineer, and Full Stack / Backend Systems Engineer.
 
-## Quick Start: Static Hosting (Recommended for Free Hosting)
+## What is in this project
 
-Export your Django site to static HTML and deploy on GitHub Pages or Netlify—no server runtime needed.
+- Premium single-page portfolio with product-style interaction
+- Mock AI assistant UI with clean service boundaries for future API integration
+- Story-driven experience and project case studies
+- Thoughts / Field Notes section with markdown content
+- Reactions and comments architecture, currently backed by `localStorage`
+- Clean content layer under `src/data`
 
-### Prerequisites
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py collectstatic --noinput
+## Project Structure
+
+```text
+src/
+  components/
+    assistant/
+    layout/
+    sections/
+    thoughts/
+    ui/
+  data/
+    assistant.ts
+    experience.ts
+    posts.ts
+    projects.ts
+    site.ts
+    skills.ts
+  lib/
+    assistant-service.ts
+    services/
+  pages/
+  types/
+public/
+  assets/
 ```
 
-### Export Static Site
+## Local Development
+
+### 1. Install dependencies
+
 ```bash
-python manage.py export_static --output dist
-cp -r staticfiles dist/static
+npm install
 ```
 
-This creates `dist/index.html` and copies all CSS/JS/images to `dist/static/`.
+### 2. Start the dev server
 
-### Deploy to GitHub Pages
-1. **Create gh-pages branch** (one-time):
-   ```bash
-   git checkout --orphan gh-pages
-   git rm -rf .
-   cp -r dist/* .
-   git add .
-   git commit -m "Initial static site"
-   git push origin gh-pages
-   git checkout main
-   ```
-
-2. **Enable GitHub Pages**:
-   - Go to repo Settings → Pages
-   - Source: Deploy from branch `gh-pages` / `root`
-   - Your site will be live at `https://yourusername.github.io/PortfolioVersion2/`
-
-3. **Update site** (after changes):
-   ```bash
-   git checkout main
-   # make your changes, then:
-   python manage.py export_static --output dist
-   cp -r staticfiles dist/static
-   git checkout gh-pages
-   cp -r dist/* .
-   git add .
-   git commit -m "Update static site"
-   git push origin gh-pages
-   git checkout main
-   ```
-
-### Deploy to Netlify
-**Option A: Drag & Drop** (easiest)
-1. Build locally:
-   ```bash
-   python manage.py export_static --output dist
-   cp -r staticfiles dist/static
-   ```
-2. Go to [Netlify Drop](https://app.netlify.com/drop)
-3. Drag the `dist/` folder → instant deployment
-
-**Option B: Continuous Deployment**
-1. Push code to GitHub (already done)
-2. [New site from Git](https://app.netlify.com/start) → select your repo
-3. Build settings:
-   - **Build command**: `pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py export_static --output dist && cp -r staticfiles dist/static`
-   - **Publish directory**: `dist`
-4. Deploy → your site is live at `https://random-name.netlify.app` (customize domain in settings)
-
-**Note**: Static export only includes simple routes (no dynamic URLs with parameters). Admin and auth routes are skipped.
-
----
-
-### Local Development
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
+npm run dev
 ```
 
-### Environment Variables
-Set these in your Railway project (Dashboard > Variables):
+### 3. Build for production
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| DJANGO_SECRET_KEY | yes | A long random string; do NOT use the default dev key. |
-| DJANGO_DEBUG | recommended | Set to `False` in production. Defaults to `True` locally. |
-| ALLOWED_HOSTS | yes | Your Railway domain, e.g. `your-app.up.railway.app` (comma-separated if multiple). |
-| DATABASE_URL | if using Postgres | Provided automatically after adding Railway Postgres plugin. |
-
-### Deployment on Railway
-1. Push code to GitHub (already done).
-2. Create a new Railway project and link the GitHub repo.
-3. Add the Postgres plugin (optional – only if you need a database beyond sqlite).
-4. Set environment variables listed above.
-5. Trigger a deploy (Railway builds using `requirements.txt`, then runs `Procfile`).
-6. Confirm logs show:
-   * `Collecting static files`
-   * `Applying database migrations`
-   * `Starting gunicorn ...`
-7. Visit the generated domain (shown in Railway) or map a custom domain.
-
-### Static Files (Dynamic Deployment)
-* `start.sh` runs `collectstatic`. WhiteNoise serves versioned, compressed assets.
-* To change a static file, edit under `core/static/...` then commit and redeploy.
-
-### Database
-* Default: sqlite for simplicity.
-* Production: set `DATABASE_URL` (Railway Postgres) to auto-switch using `dj-database-url`.
-
-### Health Check / Quick Diagnostics
 ```bash
-python manage.py check
-python manage.py collectstatic --noinput --dry-run
-gunicorn portfoliov2.wsgi:application --bind 127.0.0.1:8000
+npm run build
 ```
 
-### CI (GitHub Actions)
-Workflow runs Django checks and ensures static collection succeeds before deploy.
+### 4. Preview the production build
 
-### Security Checklist
-* DJANGO_DEBUG=False
-* Unique DJANGO_SECRET_KEY
-* ALLOWED_HOSTS set to exact domain(s)
-* Use HTTPS (Railway provides TLS)
+```bash
+npm run preview
+```
 
-### Troubleshooting
-| Symptom | Likely Cause | Fix |
-|---------|--------------|-----|
-| 500 error on / | Missing env vars or migration | Confirm env vars; run `manage.py migrate`. |
-| Static 404 | collectstatic not run | Ensure deployment logs show collectstatic; redeploy. |
-| DisallowedHost | ALLOWED_HOSTS mismatch | Set ALLOWED_HOSTS to Railway domain. |
+## Deploying to GitHub Pages
 
-### License
-Add a license of your choice (MIT recommended) if you plan to share publicly.
+The site deploys automatically via GitHub Actions on every push to `main`.
+
+Live URL: **https://aadityaanand.github.io/PortfolioVersion2/**
+
+### First-time setup
+
+In the GitHub repo go to **Settings → Pages** and set **Source** to **GitHub Actions** (not "Deploy from a branch"). After that, every push to `main` triggers `.github/workflows/deploy.yml` which builds the Vite app and publishes the `dist/` folder.
+
+### Environment variables
+
+If you later connect Supabase or an AI backend, add these as repository secrets/variables in **Settings → Secrets and variables → Actions**:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+- `VITE_ASSISTANT_API_URL`
+
+Use `.env.example` as the template.
+
+## Updating Portfolio Content
+
+Most portfolio content lives in `src/data`.
+
+### Main site content
+
+- `src/data/site.ts`
+  - hero text
+  - nav items
+  - contact links
+  - story summary
+
+### Experience
+
+- `src/data/experience.ts`
+  - story-driven experience entries
+  - context / challenge / action / thinking / outcome
+
+### Projects
+
+- `src/data/projects.ts`
+  - case studies
+  - stack
+  - architecture bullets
+  - links
+  - AI assistant follow-up prompts
+
+### Skills
+
+- `src/data/skills.ts`
+  - grouped skill clusters
+
+## Adding Thoughts / Posts
+
+Posts are stored in:
+
+- `src/data/posts.ts`
+
+Each post supports:
+
+- `title`
+- `date`
+- `category`
+- `tags`
+- `excerpt`
+- `content`
+- `coverImage`
+- `readTime`
+
+The `content` field is markdown and renders through `react-markdown`.
+
+### Example post shape
+
+```ts
+{
+  id: "example-post",
+  title: "An example note",
+  date: "2026-04-27",
+  category: "AI Engineering",
+  tags: ["ai", "systems"],
+  excerpt: "Short summary",
+  readTime: "4 min",
+  content: `
+## Heading
+
+Write markdown here.
+  `,
+}
+```
+
+## Comments and Reactions
+
+The Thoughts reader is already separated behind a service layer:
+
+- `src/lib/services/thoughts-service.ts`
+- `src/lib/services/local-thoughts-service.ts`
+- `src/lib/services/supabase-thoughts-service.ts`
+
+### Current behavior
+
+- comments are stored in `localStorage`
+- reactions are stored in `localStorage`
+- this is useful for UI development and interaction design
+
+### Future Supabase integration
+
+Replace the `LocalThoughtsService` usage with a real Supabase-backed implementation.
+
+Suggested future tables:
+
+- `thought_posts`
+- `thought_comments`
+- `thought_reactions`
+
+Suggested future fields:
+
+- comments: `id`, `post_id`, `author`, `body`, `created_at`, `is_hidden`
+- reactions: `id`, `post_id`, `reaction_type`, `session_id`, `created_at`
+
+That leaves room for moderation, delete flows, and basic abuse controls later.
+
+## Future AI Assistant Integration
+
+The assistant UI is intentionally split into:
+
+- prompts and canned replies in `src/data/assistant.ts`
+- resolution logic in `src/lib/assistant-service.ts`
+- UI in `src/components/assistant/ChatPanel.tsx`
+
+To connect a real backend later:
+
+1. create an API endpoint or serverless function
+2. send the prompt from `ChatPanel`
+3. replace `getMockAssistantReply()` with a real fetch call
+4. optionally build retrieval from:
+   - posts
+   - projects
+   - experience stories
+   - skills
+
+The current data model is already structured to support retrieval, prompt assembly, or a future RAG layer.
+
+## Notes on Legacy Files
+
+This repository still contains the previous Django portfolio implementation in legacy folders such as:
+
+- `core/`
+- `contact/`
+- `portfoliov2/`
+
+The new Vite app is now the primary frontend. Those older files remain in the repo as historical source material and can be removed later if you want to fully clean the project.

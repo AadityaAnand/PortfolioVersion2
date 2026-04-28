@@ -16,6 +16,7 @@ eggs/
 .eggs/
 lib/
 lib64/
+!src/lib/
 parts/
 sdist/
 var/
@@ -158,3 +159,10 @@ Icon\r\n
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# Node / Vite
+node_modules/
+.vercel/
+coverage/
+*.tsbuildinfo
+static/

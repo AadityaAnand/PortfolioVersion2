@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink text-mist antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(122, 166, 255, 0.16), transparent 34%),
+      radial-gradient(circle at top right, rgba(140, 246, 218, 0.16), transparent 32%),
+      linear-gradient(180deg, #050816 0%, #08101d 40%, #050816 100%);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 72px 72px;
+    opacity: 0.18;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 86%);
+  }
+
+  * {
+    @apply border-line;
+  }
+
+  a,
+  button,
+  input,
+  textarea {
+    @apply outline-none;
+  }
+
+  ::selection {
+    background: rgba(140, 246, 218, 0.2);
+    color: #f8fbff;
+  }
+}
+
+@layer components {
+  .shell-container {
+    @apply mx-auto w-[min(100%-1.5rem,1280px)] md:w-[min(100%-2.5rem,1280px)];
+  }
+
+  .glass-panel {
+    @apply rounded-[28px] border border-white/10 bg-white/[0.06] shadow-glass backdrop-blur-xl;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .section-lead {
+    @apply text-sm uppercase tracking-[0.28em] text-white/50;
+  }
+
+  .section-title {
+    @apply font-display text-3xl leading-tight text-white md:text-5xl;
+  }
+
+  .section-copy {
+    @apply max-w-2xl text-base leading-7 text-white/65 md:text-lg;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-white/65;
+  }
+
+  .action-link {
+    @apply inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.05] px-5 py-3 text-sm font-medium text-white transition hover:border-white/20 hover:bg-white/[0.08];
+  }
+
+  .action-link-primary {
+    @apply border-transparent bg-gradient-to-r from-accent to-accentSecondary text-slate shadow-soft hover:brightness-110;
+  }
+}
+
+@layer utilities {
+  .mask-fade {
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.55));
+  }
+
+  .scrollbar-thin {
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
