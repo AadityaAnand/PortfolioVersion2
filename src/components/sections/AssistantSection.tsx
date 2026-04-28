@@ -8,11 +8,10 @@ type AssistantSectionProps = {
 export function AssistantSection({ request }: AssistantSectionProps) {
   return (
     <section id="assistant" className="section-padding pt-6">
-      <div className="shell-container space-y-8">
+      <div className="shell-container space-y-6">
         <SectionHeading
-          eyebrow="AI Portfolio Assistant"
+          eyebrow="Assistant"
           title="Ask the portfolio instead of guessing."
-          copy="The interface is intentionally conversational. It is meant to show how I think, what I have built, and how I explain technical work when someone needs the useful version, not the resume version."
         />
         <ChatPanel request={request} />
       </div>

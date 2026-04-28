@@ -64,20 +64,13 @@ export function ChatPanel({ request }: ChatPanelProps) {
 
   return (
     <GlassPanel className="overflow-hidden">
-      <div className="grid gap-6 border-b border-white/10 px-5 py-5 md:grid-cols-[0.9fr,1.1fr] md:px-8">
-        <div className="space-y-4">
-          <div className="chip w-fit">
+      <div className="grid gap-5 border-b border-white/10 px-5 py-5 md:grid-cols-[0.8fr,1.2fr] md:px-6">
+        <div className="space-y-3">
+          <div className="chip w-fit rounded-xl px-3 py-2 normal-case tracking-normal">
             <Bot className="h-4 w-4" />
-            AI portfolio assistant
+            Resume-backed assistant
           </div>
-          <div className="space-y-3">
-            <h3 className="font-display text-2xl text-white md:text-3xl">
-              A conversational layer on top of the portfolio
-            </h3>
-            <p className="text-sm leading-7 text-white/65 md:text-base">
-              The interface is mock-backed for now, but the content and service layer are already structured so a real AI endpoint can replace it cleanly later.
-            </p>
-          </div>
+          <h3 className="font-display text-xl text-white md:text-2xl">Ask about work, projects, or fit.</h3>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -86,7 +79,7 @@ export function ChatPanel({ request }: ChatPanelProps) {
               key={prompt.id}
               type="button"
               onClick={() => handlePrompt(prompt.prompt)}
-              className="chip text-left normal-case tracking-normal text-white/70 transition hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
+              className="chip rounded-xl px-3 py-2 text-left normal-case tracking-normal text-white/70 transition hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
             >
               <Sparkles className="h-3.5 w-3.5" />
               {prompt.label}
@@ -95,8 +88,8 @@ export function ChatPanel({ request }: ChatPanelProps) {
         </div>
       </div>
 
-      <div className="grid gap-4 p-5 md:p-8">
-        <div className="scrollbar-thin max-h-[480px] space-y-4 overflow-y-auto pr-1">
+      <div className="grid gap-3 p-5 md:p-6">
+        <div className="scrollbar-thin max-h-[460px] space-y-3 overflow-y-auto pr-1">
           <AnimatePresence initial={false}>
             {messages.map((message) => (
               <motion.div
@@ -105,13 +98,13 @@ export function ChatPanel({ request }: ChatPanelProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 className={cn(
-                  "max-w-3xl rounded-3xl border px-5 py-4 text-sm leading-7 md:text-[15px]",
+                  "max-w-3xl rounded-[22px] border px-4 py-3 text-sm leading-6 md:text-[14px]",
                   message.role === "assistant"
                     ? "border-white/10 bg-white/[0.05] text-white/72"
                     : "ml-auto border-transparent bg-gradient-to-r from-accent to-accentSecondary text-slate",
                 )}
               >
-                <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.2em]">
+                <div className="mb-2 flex items-center gap-2 text-[11px] uppercase tracking-[0.18em]">
                   {message.role === "assistant" ? "AI view" : "You asked"}
                 </div>
                 <p className="whitespace-pre-line">{message.content}</p>
@@ -123,9 +116,9 @@ export function ChatPanel({ request }: ChatPanelProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="max-w-sm rounded-3xl border border-white/10 bg-white/[0.05] px-5 py-4 text-sm text-white/60"
+              className="max-w-sm rounded-[22px] border border-white/10 bg-white/[0.05] px-4 py-3 text-sm text-white/60"
             >
-              Thinking through the best way to explain it...
+              Thinking...
             </motion.div>
           ) : null}
         </div>
@@ -135,13 +128,13 @@ export function ChatPanel({ request }: ChatPanelProps) {
             event.preventDefault();
             handlePrompt(input);
           }}
-          className="flex flex-col gap-3 rounded-[24px] border border-white/10 bg-white/[0.04] p-4 md:flex-row"
+          className="flex flex-col gap-3 rounded-[20px] border border-white/10 bg-white/[0.04] p-3 md:flex-row"
         >
           <input
             value={input}
             onChange={(event) => setInput(event.target.value)}
             className="min-h-[52px] flex-1 bg-transparent text-sm text-white placeholder:text-white/35"
-            placeholder="Ask about projects, AI fit, forward deployed work, or backend systems..."
+            placeholder="Ask about projects, systems, or experience..."
           />
           <button type="submit" className="action-link action-link-primary min-h-[52px] md:min-w-[180px]">
             Send question

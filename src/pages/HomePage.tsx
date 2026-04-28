@@ -32,7 +32,7 @@ export function HomePage() {
 
   return (
     <SiteShell>
-      <HeroSection onAskAssistant={() => assistantController.ask("Tell me about Aaditya")} />
+      <HeroSection onAskAssistant={() => assistantController.ask("Tell me about Aditya")} />
       <AssistantSection request={assistantRequest} />
       <StorySection />
       <ExperienceSection />

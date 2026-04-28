@@ -9,33 +9,33 @@ export const navItems: NavItem[] = [
 ];
 
 export const heroSignals: HeroSignal[] = [
-  { label: "Mode", value: "Forward deployed execution" },
-  { label: "Stack", value: "AI, product, backend, cloud" },
-  { label: "Style", value: "Ambiguous problem -> shipped system" },
+  { label: "AI", value: "Products" },
+  { label: "Backend", value: "Systems" },
+  { label: "Build", value: "Shipping" },
 ];
 
 export const heroActions: HeroAction[] = [
-  { label: "Ask AI About Me", href: "#assistant", type: "assistant" },
-  { label: "View Projects", href: "#projects", type: "link" },
-  { label: "Read My Thoughts", href: "#thoughts", type: "link" },
-  { label: "Contact Me", href: "#contact", type: "link" },
+  { label: "Ask AI", href: "#assistant", type: "assistant" },
+  { label: "Projects", href: "#projects", type: "link" },
+  { label: "Thoughts", href: "#thoughts", type: "link" },
+  { label: "Contact", href: "#contact", type: "link" },
 ];
 
 export const storyIntro =
-  "I like working close to the real problem. That usually means talking to users, clarifying the mess, and turning a half-defined need into something reliable enough to use in the wild.";
+  "I like working close to the real problem, especially when the product shape is still unclear and the system still needs to ship.";
 
 export const storyPillars: StoryPillar[] = [
   {
     title: "Close to the problem",
-    body: "I do my best work when engineering is adjacent to users, operators, or internal teams who feel the friction every day.",
+    body: "User-facing problems. Real constraints. Clear tradeoffs.",
   },
   {
     title: "Across the stack",
-    body: "I can move between backend systems, frontend surfaces, AI workflows, cloud infrastructure, and product decisions without losing the thread.",
+    body: "Backend, frontend, AI, cloud, product.",
   },
   {
     title: "Ship, then stabilize",
-    body: "I care about getting something real into people's hands and making it dependable enough that they want to keep using it.",
+    body: "Build fast. Make it reliable. Keep it usable.",
   },
 ];
 
@@ -57,10 +57,7 @@ export const contactLinks: ContactLink[] = [
   },
   {
     label: "Resume",
-    value: "Forward Deployed / AI / Full Stack",
+    value: "Download PDF",
     href: `${import.meta.env.BASE_URL}assets/Aaditya-Anand-Resume.pdf`,
   },
 ];
-
-export const footerNote =
-  "If you are building AI products, internal platforms, or systems that need someone who can move between code, product, and users, I'd love to connect.";

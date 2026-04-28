@@ -19,7 +19,7 @@ export const projects: ProjectCaseStudy[] = [
     learned:
       "Real-time software gets much easier once ownership of state is explicit. Most of the complexity comes from vague boundaries, not from websockets themselves.",
     links: [{ label: "GitHub", href: "https://github.com/AadityaAnand/CodeEditor" }],
-    assistantPrompt: "What makes Aaditya's collaborative code editor interesting?",
+    assistantPrompt: "What makes Aditya's collaborative code editor interesting?",
   },
   {
     id: "trend-detection",
@@ -39,7 +39,7 @@ export const projects: ProjectCaseStudy[] = [
     learned:
       "Pipelines become easier to evolve when each stage has a clear contract. Data systems fail quickly when every service knows too much about the others.",
     links: [{ label: "GitHub", href: "https://github.com/AadityaAnand" }],
-    assistantPrompt: "How does Aaditya approach backend and data architecture in his trend detection project?",
+    assistantPrompt: "How does Aditya approach backend and data architecture in his trend detection project?",
   },
   {
     id: "ai-interface",
@@ -59,6 +59,6 @@ export const projects: ProjectCaseStudy[] = [
     learned:
       "The right AI interaction is often an information architecture problem first. Good retrieval and good interfaces start from clean, structured source material.",
     links: [{ label: "This Portfolio", href: "#assistant" }],
-    assistantPrompt: "Why did Aaditya design his portfolio around an AI assistant?",
+    assistantPrompt: "Why did Aditya design his portfolio around an AI assistant?",
   },
 ];

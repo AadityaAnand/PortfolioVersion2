@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Download } from "lucide-react";
-import { contactLinks, footerNote } from "@/data/site";
+import { contactLinks } from "@/data/site";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -8,30 +8,26 @@ export function ContactSection() {
   return (
     <section id="contact" className="section-padding">
       <div className="shell-container space-y-8">
-        <SectionHeading
-          eyebrow="Contact"
-          title="Warm, direct, and easy to act on."
-          copy={footerNote}
-        />
+        <SectionHeading eyebrow="Contact" title="Contact." />
 
-        <GlassPanel className="grid gap-6 p-6 md:grid-cols-[0.95fr,1.05fr] md:p-8">
+        <GlassPanel className="grid gap-5 p-5 md:grid-cols-[0.85fr,1.15fr] md:p-6">
           <div className="space-y-4">
-            <p className="section-lead">Open to conversations</p>
-            <h3 className="font-display text-3xl text-white md:text-4xl">
-              If you are building AI products, internal platforms, or systems that need someone who can move between code, product, and users, I'd love to connect.
+            <p className="section-lead">Software Engineer</p>
+            <h3 className="font-display text-2xl text-white md:text-3xl">
+              Open to AI, backend, and platform roles.
             </h3>
-            <div className="flex flex-wrap gap-3 pt-3">
+            <div className="flex flex-wrap gap-2 pt-1">
               <a href={`${import.meta.env.BASE_URL}assets/Aaditya-Anand-Resume.pdf`} className="action-link action-link-primary">
                 <Download className="mr-2 h-4 w-4" />
-                Download resume
+                Resume
               </a>
               <a href="mailto:aadityaanand.tech@gmail.com" className="action-link">
-                Say hello
+                Email
               </a>
             </div>
           </div>
 
-          <div className="grid gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             {contactLinks.map((link) => (
               <motion.a
                 key={link.label}
@@ -39,7 +35,7 @@ export function ContactSection() {
                 target={link.href.startsWith("http") ? "_blank" : undefined}
                 rel={link.href.startsWith("http") ? "noreferrer" : undefined}
                 whileHover={{ y: -2 }}
-                className="rounded-[24px] border border-white/10 bg-white/[0.05] px-5 py-4 transition hover:border-white/20"
+                className="rounded-[20px] border border-white/10 bg-white/[0.05] px-4 py-4 transition hover:border-white/20"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>

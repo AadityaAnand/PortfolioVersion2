@@ -13,7 +13,7 @@ export function SectionHeading({ eyebrow, title, copy }: SectionHeadingProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.5 }}
-      className="space-y-4"
+      className="space-y-3"
     >
       <p className="section-lead">{eyebrow}</p>
       <h2 className="section-title">{title}</h2>
