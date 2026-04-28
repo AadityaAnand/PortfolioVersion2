@@ -71,19 +71,22 @@ npm run build
 npm run preview
 ```
 
-## Deploying to GitHub Pages
+## Deploying to Vercel
 
-The site deploys automatically via GitHub Actions on every push to `main`.
-
-Live URL: **https://aadityaanand.github.io/PortfolioVersion2/**
+The site deploys automatically via Vercel on every push to `main`.
 
 ### First-time setup
 
-In the GitHub repo go to **Settings → Pages** and set **Source** to **GitHub Actions** (not "Deploy from a branch"). After that, every push to `main` triggers `.github/workflows/deploy.yml` which builds the Vite app and publishes the `dist/` folder.
+1. Go to [vercel.com/new](https://vercel.com/new) and sign in with GitHub
+2. Import the `AadityaAnand/PortfolioVersion2` repository
+3. Vercel auto-detects Vite — no settings need changing
+4. Click **Deploy**
+
+Every subsequent push to `main` redeploys automatically.
 
 ### Environment variables
 
-If you later connect Supabase or an AI backend, add these as repository secrets/variables in **Settings → Secrets and variables → Actions**:
+If you later connect Supabase or an AI backend, add these in the Vercel project dashboard under **Settings → Environment Variables**:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
