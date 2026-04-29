@@ -38,12 +38,14 @@ export function getThoughtIdentifierFromLocation() {
 
 export function buildThoughtShareUrl(post: ThoughtPost) {
   const identifier = getThoughtPostIdentifier(post);
+  const thoughtsPath = getThoughtsArchivePath();
 
   if (typeof window === "undefined") {
-    return `/?${thoughtQueryKey}=${encodeURIComponent(identifier)}#thoughts`;
+    return `${thoughtsPath}?${thoughtQueryKey}=${encodeURIComponent(identifier)}#thoughts`;
   }
 
-  const url = new URL(window.location.href);
+  const url = new URL(window.location.origin);
+  url.pathname = thoughtsPath;
   url.searchParams.set(thoughtQueryKey, identifier);
   url.hash = "thoughts";
   return url.toString();
@@ -67,4 +69,10 @@ export function syncThoughtUrl(post: ThoughtPost | null) {
   }
 
   window.history.replaceState({}, "", url.toString());
+}
+
+function getThoughtsArchivePath() {
+  const baseUrl = import.meta.env.BASE_URL || "/";
+  const normalizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+  return `${normalizedBase || ""}/thoughts`;
 }

@@ -1,11 +1,19 @@
 import type { ContactLink, HeroAction, HeroSignal, NavItem, StoryPillar } from "@/types/portfolio";
 
-export const navItems: NavItem[] = [
+export const homeNavItems: NavItem[] = [
   { label: "Work", href: "#projects" },
   { label: "Experience", href: "#experience" },
-  { label: "Thoughts", href: "#thoughts" },
+  { label: "Thoughts", href: "/thoughts" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
+];
+
+export const thoughtsPageNavItems: NavItem[] = [
+  { label: "Home", href: "/" },
+  { label: "Work", href: "/#projects" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Thoughts", href: "/thoughts" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const heroSignals: HeroSignal[] = [
@@ -17,7 +25,7 @@ export const heroSignals: HeroSignal[] = [
 export const heroActions: HeroAction[] = [
   { label: "Ask AI", href: "#assistant", type: "assistant" },
   { label: "Projects", href: "#projects", type: "link" },
-  { label: "Thoughts", href: "#thoughts", type: "link" },
+  { label: "Thoughts", href: "/thoughts", type: "link" },
   { label: "Contact", href: "#contact", type: "link" },
 ];
 

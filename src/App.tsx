@@ -5,6 +5,11 @@ const HomePage = lazy(async () => {
   return { default: module.HomePage };
 });
 
+const ThoughtsPage = lazy(async () => {
+  const module = await import("@/pages/ThoughtsPage");
+  return { default: module.ThoughtsPage };
+});
+
 const AdminPage = lazy(async () => {
   const module = await import("@/pages/AdminPage");
   return { default: module.AdminPage };
@@ -31,6 +36,14 @@ export default function App() {
     return (
       <Suspense fallback={<AppLoadingState />}>
         <AdminPage />
+      </Suspense>
+    );
+  }
+
+  if (pathname.startsWith("/thoughts")) {
+    return (
+      <Suspense fallback={<AppLoadingState />}>
+        <ThoughtsPage />
       </Suspense>
     );
   }
