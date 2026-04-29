@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
-import { MessageSquare, ThumbsUp, X } from "lucide-react";
+import { Check, Copy, MessageSquare, Share2, ThumbsUp, X } from "lucide-react";
 import { getThoughtsInteractionService } from "@/lib/thoughts-runtime";
-import { formatDate } from "@/lib/utils";
+import { buildThoughtShareUrl, formatDate } from "@/lib/utils";
 import type {
   ThoughtComment,
   ThoughtCommentInput,
@@ -36,6 +36,8 @@ export function ThoughtReader({ post, onClose }: ThoughtReaderProps) {
   const [author, setAuthor] = useState("");
   const [body, setBody] = useState("");
   const [serviceError, setServiceError] = useState<string | null>(null);
+  const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
+  const shareUrl = useMemo(() => buildThoughtShareUrl(post), [post]);
 
   useEffect(() => {
     let cancelled = false;
@@ -107,6 +109,29 @@ export function ThoughtReader({ post, onClose }: ThoughtReaderProps) {
     }
   }
 
+  async function handleShare() {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareState("copied");
+    } catch {
+      setShareState("error");
+    }
+  }
+
+  useEffect(() => {
+    if (shareState === "idle") {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setShareState("idle");
+    }, 2200);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [shareState]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -168,6 +193,25 @@ export function ThoughtReader({ post, onClose }: ThoughtReaderProps) {
                   {serviceError}
                 </div>
               ) : null}
+
+              <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-5">
+                <div className="mb-4 flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-white/50">
+                  <Share2 className="h-4 w-4" />
+                  Share
+                </div>
+                <div className="space-y-3">
+                  <button type="button" onClick={handleShare} className="action-link w-full justify-center">
+                    {shareState === "copied" ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
+                    {shareState === "copied" ? "Link copied" : "Copy link"}
+                  </button>
+                  <div className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-xs leading-6 text-white/52">
+                    {shareUrl}
+                  </div>
+                  {shareState === "error" ? (
+                    <p className="text-sm text-white/45">Could not copy automatically. You can still copy the link above.</p>
+                  ) : null}
+                </div>
+              </div>
 
               <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-5">
                 <div className="mb-4 flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-white/50">

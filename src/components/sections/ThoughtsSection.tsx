@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { thoughtCategories, thoughtPosts } from "@/data/posts";
@@ -6,7 +6,12 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { getThoughtsContentService } from "@/lib/thoughts-runtime";
 import type { ThoughtPost } from "@/types/thoughts";
-import { formatDate } from "@/lib/utils";
+import {
+  formatDate,
+  getThoughtIdentifierFromLocation,
+  getThoughtPostIdentifier,
+  syncThoughtUrl,
+} from "@/lib/utils";
 
 const ThoughtReader = lazy(async () => {
   const module = await import("@/components/thoughts/ThoughtReader");
@@ -19,6 +24,16 @@ export function ThoughtsSection() {
   const [isLoading, setIsLoading] = useState(true);
   const contentService = useMemo(() => getThoughtsContentService(), []);
   const hasPosts = posts.length > 0;
+
+  const openPost = useCallback((post: ThoughtPost) => {
+    setActivePost(post);
+    syncThoughtUrl(post);
+  }, []);
+
+  const closePost = useCallback(() => {
+    setActivePost(null);
+    syncThoughtUrl(null);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -48,6 +63,35 @@ export function ThoughtsSection() {
     };
   }, [contentService]);
 
+  useEffect(() => {
+    if (!posts.length) {
+      return;
+    }
+
+    const thoughtIdentifier = getThoughtIdentifierFromLocation();
+
+    if (!thoughtIdentifier) {
+      return;
+    }
+
+    const matchingPost = posts.find(
+      (post) => getThoughtPostIdentifier(post) === thoughtIdentifier || post.id === thoughtIdentifier,
+    );
+
+    if (!matchingPost) {
+      return;
+    }
+
+    setActivePost((current) => {
+      if (current?.id === matchingPost.id) {
+        return current;
+      }
+
+      syncThoughtUrl(matchingPost);
+      return matchingPost;
+    });
+  }, [posts]);
+
   return (
     <section id="thoughts" className="section-padding">
       <div className="shell-container space-y-8">
@@ -59,7 +103,7 @@ export function ThoughtsSection() {
               <motion.button
                 key={post.id}
                 type="button"
-                onClick={() => setActivePost(post)}
+                onClick={() => openPost(post)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.25 }}
@@ -96,7 +140,7 @@ export function ThoughtsSection() {
                 <motion.button
                   key={post.id}
                   type="button"
-                  onClick={() => setActivePost(post)}
+                  onClick={() => openPost(post)}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.25 }}
@@ -157,7 +201,7 @@ export function ThoughtsSection() {
       <AnimatePresence>
         {activePost ? (
           <Suspense fallback={null}>
-            <ThoughtReader post={activePost} onClose={() => setActivePost(null)} />
+            <ThoughtReader post={activePost} onClose={closePost} />
           </Suspense>
         ) : null}
       </AnimatePresence>
