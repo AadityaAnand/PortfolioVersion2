@@ -1,227 +1,176 @@
-# Aaditya Anand Portfolio
+# Aditya Anand Portfolio
 
-AI-first portfolio rebuilt with:
+Premium portfolio frontend built with:
 
 - React
 - Vite
 - TypeScript
 - Tailwind CSS
 - Framer Motion
-
-The current app is designed to position Aaditya as a Forward Deployed Engineer, AI Engineer, and Full Stack / Backend Systems Engineer.
+- Supabase for Thoughts CMS, auth, and storage
 
 ## What is in this project
 
-- Premium single-page portfolio with product-style interaction
-- Mock AI assistant UI with clean service boundaries for future API integration
-- Story-driven experience and project case studies
-- Thoughts / Field Notes section with markdown content
-- Reactions and comments architecture, currently backed by `localStorage`
-- Clean content layer under `src/data`
+- Premium single-page portfolio
+- Resume-backed AI assistant UI
+- Case-study style experience and project sections
+- Thoughts section backed by Supabase-ready content services
+- Private `/admin` route for writing and publishing posts
 
 ## Project Structure
 
 ```text
 src/
   components/
+    admin/
     assistant/
     layout/
     sections/
     thoughts/
     ui/
   data/
-    assistant.ts
-    experience.ts
-    posts.ts
-    projects.ts
-    site.ts
-    skills.ts
   lib/
-    assistant-service.ts
     services/
+    supabase/
   pages/
   types/
+supabase/
+  schema.sql
 public/
   assets/
 ```
 
 ## Local Development
 
-### 1. Install dependencies
-
 ```bash
 npm install
-```
-
-### 2. Start the dev server
-
-```bash
 npm run dev
 ```
 
-### 3. Build for production
+Production build:
 
 ```bash
 npm run build
 ```
 
-### 4. Preview the production build
-
-```bash
-npm run preview
-```
-
 ## Deploying to Vercel
 
-The site deploys automatically via Vercel on every push to `main`.
+The frontend is designed for Vercel. The included `vercel.json` keeps `/admin` working by rewriting it back to the SPA entry.
 
-### First-time setup
+## Supabase Setup
 
-1. Go to [vercel.com/new](https://vercel.com/new) and sign in with GitHub
-2. Import the `AadityaAnand/PortfolioVersion2` repository
-3. Vercel auto-detects Vite — no settings need changing
-4. Click **Deploy**
+### 1. Create a Supabase project
 
-Every subsequent push to `main` redeploys automatically.
+You will need:
 
-### Environment variables
+- Project URL
+- Anon/public key
 
-If you later connect Supabase or an AI backend, add these in the Vercel project dashboard under **Settings → Environment Variables**:
+Put them in:
 
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-- `VITE_ASSISTANT_API_URL`
+- local `.env`
+- Vercel project environment variables
 
 Use `.env.example` as the template.
 
-## Updating Portfolio Content
+Required env vars:
 
-Most portfolio content lives in `src/data`.
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+- `VITE_SUPABASE_STORAGE_BUCKET`
 
-### Main site content
+### 2. Run the schema
 
-- `src/data/site.ts`
-  - hero text
-  - nav items
-  - contact links
-  - story summary
+Paste `supabase/schema.sql` into the Supabase SQL editor and run it.
 
-### Experience
-
-- `src/data/experience.ts`
-  - story-driven experience entries
-  - context / challenge / action / thinking / outcome
-
-### Projects
-
-- `src/data/projects.ts`
-  - case studies
-  - stack
-  - architecture bullets
-  - links
-  - AI assistant follow-up prompts
-
-### Skills
-
-- `src/data/skills.ts`
-  - grouped skill clusters
-
-## Adding Thoughts / Posts
-
-Posts are stored in:
-
-- `src/data/posts.ts`
-
-Each post supports:
-
-- `title`
-- `date`
-- `category`
-- `tags`
-- `excerpt`
-- `content`
-- `coverImage`
-- `readTime`
-
-The `content` field is markdown and renders through `react-markdown`.
-
-### Example post shape
-
-```ts
-{
-  id: "example-post",
-  title: "An example note",
-  date: "2026-04-27",
-  category: "AI Engineering",
-  tags: ["ai", "systems"],
-  excerpt: "Short summary",
-  readTime: "4 min",
-  content: `
-## Heading
-
-Write markdown here.
-  `,
-}
-```
-
-## Comments and Reactions
-
-The Thoughts reader is already separated behind a service layer:
-
-- `src/lib/services/thoughts-service.ts`
-- `src/lib/services/local-thoughts-service.ts`
-- `src/lib/services/supabase-thoughts-service.ts`
-
-### Current behavior
-
-- comments are stored in `localStorage`
-- reactions are stored in `localStorage`
-- this is useful for UI development and interaction design
-
-### Future Supabase integration
-
-Replace the `LocalThoughtsService` usage with a real Supabase-backed implementation.
-
-Suggested future tables:
+That creates:
 
 - `thought_posts`
 - `thought_comments`
 - `thought_reactions`
+- `thought-covers` storage bucket
 
-Suggested future fields:
+### 3. Create your admin user
 
-- comments: `id`, `post_id`, `author`, `body`, `created_at`, `is_hidden`
-- reactions: `id`, `post_id`, `reaction_type`, `session_id`, `created_at`
+This app uses Supabase Auth password login in the admin UI.
 
-That leaves room for moderation, delete flows, and basic abuse controls later.
+Recommended setup:
 
-## Future AI Assistant Integration
+1. Disable public signups in Supabase Auth
+2. Create your own user manually from the Supabase dashboard
+3. Sign in at `/admin`
 
-The assistant UI is intentionally split into:
+That keeps the writing UI private while still letting the public site read published posts.
 
-- prompts and canned replies in `src/data/assistant.ts`
-- resolution logic in `src/lib/assistant-service.ts`
+## Writing Thoughts
+
+Open:
+
+- `/admin`
+
+From there you can:
+
+- sign in
+- create a new post
+- edit drafts
+- publish posts
+- upload a cover image
+- delete posts
+
+The editor supports:
+
+- title
+- slug
+- category: `Technical`, `Life`, `Fun`
+- excerpt
+- tags
+- date
+- markdown content
+- featured toggle
+- published toggle
+
+## How the Thoughts data works
+
+### Public site
+
+The public Thoughts section:
+
+- loads published posts from Supabase when configured
+- falls back to `src/data/posts.ts` if Supabase is not configured
+
+### Admin
+
+The admin route:
+
+- authenticates with Supabase Auth
+- reads all posts from Supabase
+- writes drafts and published posts to `thought_posts`
+- uploads images to Supabase Storage
+
+### Comments and reactions
+
+The portfolio still has a clean interaction service boundary:
+
+- `src/lib/services/thoughts-service.ts`
+- `src/lib/services/supabase-thoughts-service.ts`
+- `src/lib/services/local-thoughts-service.ts`
+
+Comments and reactions are wired for Supabase as a starter implementation. If you later want stronger abuse protection or moderation, the next step would be moving public writes behind an Edge Function or serverless API.
+
+## AI Assistant
+
+The assistant is still structured so it can later switch from mock replies to a real API:
+
+- prompts and content in `src/data/assistant.ts`
+- reply logic in `src/lib/assistant-service.ts`
 - UI in `src/components/assistant/ChatPanel.tsx`
 
-To connect a real backend later:
+## Legacy Files
 
-1. create an API endpoint or serverless function
-2. send the prompt from `ChatPanel`
-3. replace `getMockAssistantReply()` with a real fetch call
-4. optionally build retrieval from:
-   - posts
-   - projects
-   - experience stories
-   - skills
-
-The current data model is already structured to support retrieval, prompt assembly, or a future RAG layer.
-
-## Notes on Legacy Files
-
-This repository still contains the previous Django portfolio implementation in legacy folders such as:
+The repo still includes the earlier Django portfolio in:
 
 - `core/`
 - `contact/`
 - `portfoliov2/`
 
-The new Vite app is now the primary frontend. Those older files remain in the repo as historical source material and can be removed later if you want to fully clean the project.
+The Vite app at the repo root is the active frontend.

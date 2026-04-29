@@ -7,6 +7,21 @@ on:
     branches: ["main"]
 
 jobs:
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Build Vite app
+        run: npm run build
+
   django-check:
     runs-on: ubuntu-latest
     steps:
@@ -33,4 +48,3 @@ jobs:
           sleep 5
           curl -f http://127.0.0.1:8000/ || (echo "Home page failed" && exit 1)
           kill $pid || true
-*** End Patch

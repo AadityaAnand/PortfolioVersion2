@@ -1,9 +1,10 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { thoughtCategories, thoughtPosts } from "@/data/posts";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassPanel } from "@/components/ui/GlassPanel";
+import { getThoughtsContentService } from "@/lib/thoughts-runtime";
 import type { ThoughtPost } from "@/types/thoughts";
 import { formatDate } from "@/lib/utils";
 
@@ -14,7 +15,38 @@ const ThoughtReader = lazy(async () => {
 
 export function ThoughtsSection() {
   const [activePost, setActivePost] = useState<ThoughtPost | null>(null);
-  const hasPosts = thoughtPosts.length > 0;
+  const [posts, setPosts] = useState<ThoughtPost[]>(thoughtPosts);
+  const [isLoading, setIsLoading] = useState(true);
+  const contentService = useMemo(() => getThoughtsContentService(), []);
+  const hasPosts = posts.length > 0;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadPosts() {
+      try {
+        const nextPosts = await contentService.listPublishedPosts();
+
+        if (!cancelled) {
+          setPosts(nextPosts);
+        }
+      } catch {
+        if (!cancelled) {
+          setPosts(thoughtPosts);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadPosts();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [contentService]);
 
   return (
     <section id="thoughts" className="section-padding">
@@ -23,7 +55,7 @@ export function ThoughtsSection() {
 
         {hasPosts ? (
           <div className="grid gap-5 xl:grid-cols-[1.15fr,0.85fr]">
-            {thoughtPosts.slice(0, 1).map((post) => (
+            {posts.slice(0, 1).map((post) => (
               <motion.button
                 key={post.id}
                 type="button"
@@ -60,7 +92,7 @@ export function ThoughtsSection() {
             ))}
 
             <div className="grid gap-5">
-              {thoughtPosts.slice(1).map((post, index) => (
+              {posts.slice(1).map((post, index) => (
                 <motion.button
                   key={post.id}
                   type="button"
@@ -95,10 +127,10 @@ export function ThoughtsSection() {
           <div className="grid gap-3 xl:grid-cols-[0.9fr,1.1fr]">
             <GlassPanel className="flex h-full flex-col justify-between p-5 md:p-6">
               <div>
-                <p className="section-lead">No posts yet</p>
+                <p className="section-lead">{isLoading ? "Loading thoughts" : "No posts yet"}</p>
                 <h3 className="mt-3 font-display text-2xl text-white md:text-3xl">Technical. Life. Fun.</h3>
               </div>
-              <p className="mt-6 text-sm text-white/55">Empty for now.</p>
+              <p className="mt-6 text-sm text-white/55">{isLoading ? "Pulling published notes." : "Empty for now."}</p>
             </GlassPanel>
 
             <div className="grid gap-3 md:grid-cols-3">

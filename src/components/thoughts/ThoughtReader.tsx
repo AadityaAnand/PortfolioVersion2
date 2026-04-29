@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { MessageSquare, ThumbsUp, X } from "lucide-react";
-import { LocalThoughtsService } from "@/lib/services/local-thoughts-service";
+import { getThoughtsInteractionService } from "@/lib/thoughts-runtime";
 import { formatDate } from "@/lib/utils";
 import type {
   ThoughtComment,
@@ -18,22 +18,62 @@ const reactionLabels: Record<ThoughtReactionType, string> = {
   curious: "Curious",
 };
 
+const emptyReactions = {
+  useful: 0,
+  interesting: 0,
+  curious: 0,
+};
+
 type ThoughtReaderProps = {
   post: ThoughtPost;
   onClose: () => void;
 };
 
 export function ThoughtReader({ post, onClose }: ThoughtReaderProps) {
-  const service = useMemo(() => new LocalThoughtsService(), []);
+  const service = useMemo(() => getThoughtsInteractionService(), []);
   const [comments, setComments] = useState<ThoughtComment[]>([]);
   const [reactions, setReactions] = useState<ThoughtReactionSummary | null>(null);
   const [author, setAuthor] = useState("");
   const [body, setBody] = useState("");
+  const [serviceError, setServiceError] = useState<string | null>(null);
 
   useEffect(() => {
-    service.listComments(post.id).then(setComments);
-    service.getReactions(post.id).then(setReactions);
-  }, [post, service]);
+    let cancelled = false;
+
+    async function loadEngagement() {
+      try {
+        const [nextComments, nextReactions] = await Promise.all([
+          service.listComments(post.id),
+          service.getReactions(post.id),
+        ]);
+
+        if (cancelled) {
+          return;
+        }
+
+        setComments(nextComments);
+        setReactions(nextReactions);
+        setServiceError(null);
+      } catch {
+        if (cancelled) {
+          return;
+        }
+
+        setComments([]);
+        setReactions({
+          postId: post.id,
+          counts: { ...emptyReactions },
+        });
+        setServiceError("Comments and reactions are unavailable until the Thoughts backend is configured.");
+      }
+    }
+
+    loadEngagement();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [post.id, service]);
 
   async function handleCommentSubmit() {
     const payload: ThoughtCommentInput = {
@@ -46,15 +86,25 @@ export function ThoughtReader({ post, onClose }: ThoughtReaderProps) {
       return;
     }
 
-    const nextComment = await service.addComment(payload);
-    setComments((current) => [nextComment, ...current]);
-    setAuthor("");
-    setBody("");
+    try {
+      const nextComment = await service.addComment(payload);
+      setComments((current) => [nextComment, ...current]);
+      setAuthor("");
+      setBody("");
+      setServiceError(null);
+    } catch {
+      setServiceError("Comment posting is unavailable right now.");
+    }
   }
 
   async function handleReaction(reaction: ThoughtReactionType) {
-    const nextReactions = await service.toggleReaction(post.id, reaction);
-    setReactions(nextReactions);
+    try {
+      const nextReactions = await service.toggleReaction(post.id, reaction);
+      setReactions(nextReactions);
+      setServiceError(null);
+    } catch {
+      setServiceError("Reactions are unavailable right now.");
+    }
   }
 
   return (
@@ -113,6 +163,12 @@ export function ThoughtReader({ post, onClose }: ThoughtReaderProps) {
             </article>
 
             <aside className="space-y-6">
+              {serviceError ? (
+                <div className="rounded-[24px] border border-white/10 bg-white/[0.05] px-4 py-3 text-sm text-white/55">
+                  {serviceError}
+                </div>
+              ) : null}
+
               <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-5">
                 <div className="mb-4 flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-white/50">
                   <ThumbsUp className="h-4 w-4" />
