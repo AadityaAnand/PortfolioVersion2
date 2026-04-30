@@ -183,6 +183,22 @@ export function ThoughtReader({ post, onClose }: ThoughtReaderProps) {
               </div>
 
               <div className="prose prose-invert max-w-none prose-headings:font-display prose-headings:text-white prose-p:text-white/72 prose-strong:text-white prose-li:text-white/72">
+                {post.bodyImages?.length ? (
+                  <div className="not-prose mb-8 space-y-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-white/40">Images</p>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      {post.bodyImages.map((imageUrl, index) => (
+                        <div key={`${imageUrl}-${index}`} className="overflow-hidden rounded-[24px] border border-white/10 bg-black/20">
+                          <img
+                            src={imageUrl}
+                            alt={`${post.title} image ${index + 1}`}
+                            className="w-full object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 <ReactMarkdown>{post.content}</ReactMarkdown>
               </div>
             </article>

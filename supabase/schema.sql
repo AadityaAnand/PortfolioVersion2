@@ -20,12 +20,16 @@ create table if not exists public.thought_posts (
   excerpt text not null,
   content text not null,
   cover_image text,
+  body_images text[] not null default '{}',
   read_time text not null default '3 min',
   featured boolean not null default false,
   published boolean not null default false,
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now())
 );
+
+alter table public.thought_posts
+add column if not exists body_images text[] not null default '{}';
 
 drop trigger if exists set_thought_posts_updated_at on public.thought_posts;
 create trigger set_thought_posts_updated_at

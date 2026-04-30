@@ -18,7 +18,7 @@ const baseCounts: ThoughtReactionSummary["counts"] = {
 };
 
 const postSelect =
-  "id, slug, title, display_date, category, tags, excerpt, content, cover_image, read_time, featured, published, created_at, updated_at";
+  "id, slug, title, display_date, category, tags, excerpt, content, cover_image, body_images, read_time, featured, published, created_at, updated_at";
 
 type ThoughtPostRecord = {
   id: string;
@@ -30,6 +30,7 @@ type ThoughtPostRecord = {
   excerpt: string;
   content: string;
   cover_image: string | null;
+  body_images: string[] | null;
   read_time: string | null;
   featured: boolean | null;
   published: boolean | null;
@@ -242,6 +243,7 @@ function mapThoughtPost(record: ThoughtPostRecord): ThoughtPost {
     excerpt: record.excerpt,
     content: record.content,
     coverImage: record.cover_image ?? undefined,
+    bodyImages: record.body_images ?? [],
     readTime: record.read_time ?? "3 min",
     featured: Boolean(record.featured),
     published: Boolean(record.published),
@@ -260,6 +262,7 @@ function mapThoughtPostInput(input: ThoughtPostInput) {
     excerpt: input.excerpt.trim(),
     content: input.content.trim(),
     cover_image: input.coverImage?.trim() || null,
+    body_images: input.bodyImages?.filter(Boolean) ?? [],
     read_time: input.readTime.trim() || "3 min",
     featured: input.featured,
     published: input.published,

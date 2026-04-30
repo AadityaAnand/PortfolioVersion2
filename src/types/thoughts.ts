@@ -11,6 +11,7 @@ export type ThoughtPost = {
   tags: string[];
   excerpt: string;
   coverImage?: string;
+  bodyImages?: string[];
   readTime: string;
   content: string;
   featured?: boolean;
@@ -28,6 +29,7 @@ export type ThoughtPostInput = {
   tags: string[];
   excerpt: string;
   coverImage?: string;
+  bodyImages?: string[];
   readTime: string;
   content: string;
   featured: boolean;

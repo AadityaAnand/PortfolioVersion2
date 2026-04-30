@@ -13,6 +13,7 @@ export type ThoughtEditorState = {
   tagsText: string;
   excerpt: string;
   coverImage: string;
+  bodyImagesText: string;
   readTime: string;
   content: string;
   featured: boolean;
@@ -24,6 +25,7 @@ type ThoughtPostEditorProps = {
   isSaving: boolean;
   isDeleting: boolean;
   isUploadingCover: boolean;
+  isUploadingBodyImage: boolean;
   statusMessage: string | null;
   errorMessage: string | null;
   onTitleChange: (value: string) => void;
@@ -32,6 +34,7 @@ type ThoughtPostEditorProps = {
   onPublish: () => void;
   onDelete: () => void;
   onUploadCover: (file: File) => Promise<void>;
+  onUploadBodyImage: (file: File) => Promise<void>;
 };
 
 const inputClassName =
@@ -45,6 +48,7 @@ export function ThoughtPostEditor({
   isSaving,
   isDeleting,
   isUploadingCover,
+  isUploadingBodyImage,
   statusMessage,
   errorMessage,
   onTitleChange,
@@ -53,7 +57,13 @@ export function ThoughtPostEditor({
   onPublish,
   onDelete,
   onUploadCover,
+  onUploadBodyImage,
 }: ThoughtPostEditorProps) {
+  const bodyImages = value.bodyImagesText
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
   return (
     <GlassPanel className="p-5 md:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -211,6 +221,48 @@ export function ThoughtPostEditor({
           ) : (
             <div className="flex h-56 items-center justify-center rounded-[22px] border border-white/10 bg-black/20 text-sm text-white/35">
               No cover image selected
+            </div>
+          )}
+
+          <Field label="Post image URLs">
+            <textarea
+              rows={5}
+              value={value.bodyImagesText}
+              onChange={(event) => onChange("bodyImagesText", event.target.value)}
+              className={textareaClassName}
+              placeholder={"https://...\nhttps://..."}
+            />
+          </Field>
+
+          <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-white/12 bg-white/[0.03] px-4 py-4 text-sm text-white/72 transition hover:border-white/20 hover:bg-white/[0.05]">
+            <ImagePlus className="h-4 w-4" />
+            {isUploadingBodyImage ? "Uploading post image..." : "Upload image to post"}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={async (event) => {
+                const file = event.target.files?.[0];
+
+                if (file) {
+                  await onUploadBodyImage(file);
+                  event.target.value = "";
+                }
+              }}
+            />
+          </label>
+
+          {bodyImages.length ? (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {bodyImages.map((imageUrl, index) => (
+                <div key={`${imageUrl}-${index}`} className="overflow-hidden rounded-[20px] border border-white/10 bg-black/20">
+                  <img src={imageUrl} alt={`Post image ${index + 1}`} className="h-36 w-full object-cover" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex h-36 items-center justify-center rounded-[22px] border border-white/10 bg-black/20 text-sm text-white/35">
+              No post images selected
             </div>
           )}
 

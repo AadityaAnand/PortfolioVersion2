@@ -27,6 +27,7 @@ export function AdminPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUploadingCover, setIsUploadingCover] = useState(false);
+  const [isUploadingBodyImage, setIsUploadingBodyImage] = useState(false);
 
   useEffect(() => {
     if (!supabase) {
@@ -214,6 +215,25 @@ export function AdminPage() {
     }
   }
 
+  async function handleUploadBodyImage(file: File) {
+    setIsUploadingBodyImage(true);
+    setEditorError(null);
+    setStatusMessage(null);
+
+    try {
+      const imageUrl = await thoughtsContentService.uploadCoverImage(file);
+      setEditor((current) => ({
+        ...current,
+        bodyImagesText: appendImageUrl(current.bodyImagesText, imageUrl),
+      }));
+      setStatusMessage("Post image uploaded.");
+    } catch (error) {
+      setEditorError(getErrorMessage(error, "Unable to upload the post image."));
+    } finally {
+      setIsUploadingBodyImage(false);
+    }
+  }
+
   async function handleSave(published: boolean) {
     const validationMessage = validateEditor(editor);
 
@@ -344,6 +364,7 @@ export function AdminPage() {
               isSaving={isSaving}
               isDeleting={isDeleting}
               isUploadingCover={isUploadingCover}
+              isUploadingBodyImage={isUploadingBodyImage}
               statusMessage={statusMessage}
               errorMessage={editorError}
               onTitleChange={handleTitleChange}
@@ -352,6 +373,7 @@ export function AdminPage() {
               onPublish={() => void handleSave(true)}
               onDelete={() => void handleDelete()}
               onUploadCover={handleUploadCover}
+              onUploadBodyImage={handleUploadBodyImage}
             />
           </div>
         ) : (
@@ -371,6 +393,7 @@ function createEmptyEditorState(): ThoughtEditorState {
     tagsText: "",
     excerpt: "",
     coverImage: "",
+    bodyImagesText: "",
     readTime: "3 min",
     content: "",
     featured: false,
@@ -388,6 +411,7 @@ function toEditorState(post: ThoughtPost): ThoughtEditorState {
     tagsText: post.tags.join(", "),
     excerpt: post.excerpt,
     coverImage: post.coverImage || "",
+    bodyImagesText: (post.bodyImages ?? []).join("\n"),
     readTime: post.readTime,
     content: post.content,
     featured: Boolean(post.featured),
@@ -408,6 +432,10 @@ function toThoughtPostInput(editor: ThoughtEditorState, published: boolean): Tho
       .filter(Boolean),
     excerpt: editor.excerpt.trim(),
     coverImage: editor.coverImage.trim() || undefined,
+    bodyImages: editor.bodyImagesText
+      .split("\n")
+      .map((image) => image.trim())
+      .filter(Boolean),
     readTime: editor.readTime.trim() || "3 min",
     content: editor.content.trim(),
     featured: editor.featured,
@@ -457,4 +485,9 @@ function getErrorMessage(error: unknown, fallback: string) {
   }
 
   return fallback;
+}
+
+function appendImageUrl(existing: string, nextUrl: string) {
+  const trimmedExisting = existing.trim();
+  return trimmedExisting ? `${trimmedExisting}\n${nextUrl}` : nextUrl;
 }
