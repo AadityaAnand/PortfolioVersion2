@@ -186,13 +186,16 @@ export function ThoughtReader({ post, onClose }: ThoughtReaderProps) {
                 {post.bodyImages?.length ? (
                   <div className="not-prose mb-8 space-y-4">
                     <p className="text-xs uppercase tracking-[0.2em] text-white/40">Images</p>
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-5">
                       {post.bodyImages.map((imageUrl, index) => (
-                        <div key={`${imageUrl}-${index}`} className="overflow-hidden rounded-[24px] border border-white/10 bg-black/20">
+                        <div
+                          key={`${imageUrl}-${index}`}
+                          className="overflow-hidden rounded-[24px] border border-white/10 bg-black/20"
+                        >
                           <img
                             src={imageUrl}
                             alt={`${post.title} image ${index + 1}`}
-                            className="w-full object-cover"
+                            className="h-[320px] w-full object-cover md:h-[420px]"
                           />
                         </div>
                       ))}
